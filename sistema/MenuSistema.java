@@ -6,11 +6,13 @@ import java.util.Scanner;
 public class MenuSistema {
     private Banco banco;
     private MenuClientes menuClientes;
+    private MenuCuentas menuCuentas;
     private Scanner sc = new Scanner(System.in);
 
     public MenuSistema(Banco banco) {
         this.banco = banco;
         this.menuClientes = new MenuClientes(banco, sc);
+        this.menuCuentas = new MenuCuentas(banco, sc);
     }
 
     public void mostrarMenuPrincipal() {
@@ -27,7 +29,7 @@ public class MenuSistema {
                     menuClientes.mostrarMenuClientes();
                     break;
                 case "2":
-
+                    menuCuentas.mostrarMenuCuentas();
                     break;
                 default:
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");

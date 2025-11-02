@@ -92,6 +92,7 @@ public class MenuClientes {
     }
 
     public void listarClientes() {
+        System.out.println("==== LISTA DE CLIENTES ====");
         banco.getGestorClientes().listarClientes();
     }
 }
