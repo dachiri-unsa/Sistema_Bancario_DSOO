@@ -14,7 +14,7 @@ public class MenuClientes {
     public void mostrarMenuClientes() {
         String opcion;
         do {
-            System.out.println("\n==== BANCO ====");
+            System.out.println("\n==== MENU CLIENTES ====");
             System.out.println("Ingrese una opcion: ");
             System.out.println("1. Registrar Cliente.");
             System.out.println("2. Buscar Cliente.");

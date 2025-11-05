@@ -6,12 +6,14 @@ public class MenuSistema {
     private Banco banco;
     private MenuClientes menuClientes;
     private MenuCuentas menuCuentas;
+    private MenuTarjetas menuTarjetas;
     private Scanner sc = new Scanner(System.in);
 
     public MenuSistema(Banco banco) {
         this.banco = banco;
         this.menuClientes = new MenuClientes(banco, sc);
         this.menuCuentas = new MenuCuentas(banco, sc);
+        this.menuTarjetas = new MenuTarjetas(banco, sc);
     }
 
     public void mostrarMenuPrincipal() {
@@ -33,6 +35,9 @@ public class MenuSistema {
                     break;
                 case "2":
                     menuCuentas.mostrarMenuCuentas();
+                    break;
+                case "3":
+                    menuTarjetas.mostrarMenuTarjetas();
                     break;
                 //Aqui demas casos.
                 default:

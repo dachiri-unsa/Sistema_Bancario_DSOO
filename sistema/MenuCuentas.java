@@ -17,7 +17,7 @@ public class MenuCuentas {
     public void mostrarMenuCuentas() {
         String opcion;
         do {
-            System.out.println("\n==== BANCO ====");
+            System.out.println("\n==== MENU CUENTAS ====");
             System.out.println("Ingrese una opcion: ");
             System.out.println("1. Crear cuenta.");
             System.out.println("2. Consultar saldo.");

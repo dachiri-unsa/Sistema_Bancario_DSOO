@@ -10,7 +10,7 @@ public class CuentaBancaria {
     private HistorialMovimientos historial;
 
     public CuentaBancaria(TipoMoneda moneda) {
-        this.numeroCuenta = ""+this.contadorCuentas;
+        this.numeroCuenta = ""+contadorCuentas;
         contadorCuentas++;
         this.moneda = moneda;
         this.saldo = 0;
