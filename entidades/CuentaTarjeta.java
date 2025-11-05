@@ -8,4 +8,17 @@ public class CuentaTarjeta {
         this.tarjeta = tarjeta;
         this.cuenta = cuenta;
     }
+    public Tarjeta getTarjeta() {
+        return tarjeta;
+    }
+    public void setTarjeta(Tarjeta tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+    public CuentaBancaria getCuenta() {
+        return cuenta;
+    }
+    public void setCuenta(CuentaBancaria cuenta) {
+        this.cuenta = cuenta;
+    }
+
 }

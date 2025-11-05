@@ -12,6 +12,19 @@ public class Tarjeta {
         this.numeroTarjeta = numeroTarjeta;
         this.compañia = compañia;
     }
+    public String getNumeroTarjeta() {
+        return numeroTarjeta;
+    }
+    public void setNumeroTarjeta(String numeroTarjeta) {
+        this.numeroTarjeta = numeroTarjeta;
+    }
+    public String getCompañia(){
+        return compañia;
+    }
+
+    public void setCompañia(String compañia) {
+        this.compañia = compañia;
+    }
 
     //public boolean afiliarCuenta(CuentaBancaria cuenta) {
     public void afiliarCuenta(CuentaBancaria cuenta) {
@@ -23,5 +36,10 @@ public class Tarjeta {
     public ArrayList<CuentaBancaria> getCuentasAfiliadas() {
         // Esto transforma los valores del HashMap a un ArrayList.
         return new ArrayList<>(this.mapCuentasMoneda.values());
+    }
+
+    @Override
+    public String toString() {
+        return "Numero: " + numeroTarjeta + ", Compañia: " + compañia;
     }
 }

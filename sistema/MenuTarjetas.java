@@ -1,10 +1,14 @@
 package sistema;
 
+import entidades.Tarjeta;
+import gestores.GestorTarjetas;
+
 import java.util.Scanner;
 
 public class MenuTarjetas {
     private Scanner sc;
     private Banco banco;
+    private GestorTarjetas gestorTarjetas;
 
     public MenuTarjetas(Banco banco, Scanner sc) {
         this.banco = banco;
@@ -40,5 +44,14 @@ public class MenuTarjetas {
 
     public void emitirTarjeta() {
         System.out.println("==== EMITIR TARJETA ====");
+        System.out.print("Ingrese la compañia: ");
+        String compañia = sc.nextLine();
+        String numeroTarjeta = gestorTarjetas.generarNumeroTarjeta();
+        Tarjeta tarjeta = new Tarjeta(numeroTarjeta, compañia);
+        gestorTarjetas.agregarTarjeta(tarjeta);
+        System.out.println("Tarjeta emitida exitosamente!");
+        System.out.println("Numero: " + numeroTarjeta);
     }
+
+
 }
