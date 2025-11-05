@@ -1,11 +1,36 @@
 package entidades;
 
-public class Movimiento {
+import java.time.LocalDateTime;
+
+public abstract class Movimiento {
     protected double monto;
-    // Importan del LocalDataTime y lo aplican porfa, yo no se XD
-    // protected LocalDateTime fecha;
     protected String descripcion;
     protected CuentaBancaria origen;
-    //Agregar un toString para que en Historial de movimientos pueda mostrarlo
-    // O tambien cambiar el metodo listarMovimientos en HistorialMovimientos
+    protected LocalDateTime fecha;
+    protected Encargado encargado;
+
+    public Movimiento(double monto, String descripcion, CuentaBancaria origen, Encargado encargado) {
+        this.monto = monto;
+        this.descripcion = descripcion;
+        this.origen = origen;
+        this.fecha = LocalDateTime.now();
+        this.encargado = encargado;
+    }
+
+    public Encargado getEncargado() { return encargado; }
+
+    public double getMonto() { return monto; }
+
+    public String getDescripcion() { return descripcion; }
+
+    public CuentaBancaria getOrigen() { return origen; }
+
+    public LocalDateTime getFecha() { return fecha; }
+
+    public abstract boolean procesar();
+
+    @Override
+    public String toString() {
+        return "[" + fecha + "] " + descripcion + " - S/ " + monto;
+    }
 }

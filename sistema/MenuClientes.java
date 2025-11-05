@@ -32,6 +32,9 @@ public class MenuClientes {
                 case "3":
                     listarClientes();
                     break;
+                case "0":
+                    MenuSistema.limpiarPantalla();
+                    break;
                 default:
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;

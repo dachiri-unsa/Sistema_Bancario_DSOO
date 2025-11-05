@@ -11,6 +11,7 @@ public class Tarjeta {
     public Tarjeta(String numeroTarjeta, String compañia) {
         this.numeroTarjeta = numeroTarjeta;
         this.compañia = compañia;
+        this.mapCuentasMoneda = new HashMap<>();
     }
     public String getNumeroTarjeta() {
         return numeroTarjeta;

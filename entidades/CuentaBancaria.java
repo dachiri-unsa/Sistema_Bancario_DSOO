@@ -27,7 +27,7 @@ public class CuentaBancaria {
 
     // Considerar agregar al historia de movimientos de la cuenta (no cliente) XD
     public void incrementarSaldo(double monto) {
-        this.numeroCuenta += monto;
+        this.saldo += monto;
     }
     public boolean decrementarSaldo(double monto) {
         if (monto < this.saldo) {

@@ -35,6 +35,9 @@ public class MenuCuentas {
                 case "3":
                     verMovimientos();
                     break;
+                case "0":
+                    MenuSistema.limpiarPantalla();
+                    break;
                 default:
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;

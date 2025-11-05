@@ -15,6 +15,8 @@ public class MenuTarjetas {
 
     public MenuTarjetas(Banco banco, Scanner sc) {
         this.banco = banco;
+        this.gestorTarjetas = new GestorTarjetas();
+        this.gestorCuentasBancarias = new GestorCuentasBancarias();
         this.sc = sc;
     }
     public void mostrarMenuTarjetas() {
@@ -35,6 +37,7 @@ public class MenuTarjetas {
                     vincularTarjeta();
                     break;
                 case "0":
+                    MenuSistema.limpiarPantalla();
                     break;
                 default:
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
