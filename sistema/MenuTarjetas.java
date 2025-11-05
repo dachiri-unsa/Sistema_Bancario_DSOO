@@ -1,6 +1,8 @@
 package sistema;
 
+import entidades.CuentaBancaria;
 import entidades.Tarjeta;
+import gestores.GestorCuentasBancarias;
 import gestores.GestorTarjetas;
 
 import java.util.Scanner;
@@ -9,6 +11,7 @@ public class MenuTarjetas {
     private Scanner sc;
     private Banco banco;
     private GestorTarjetas gestorTarjetas;
+    private GestorCuentasBancarias gestorCuentasBancarias;
 
     public MenuTarjetas(Banco banco, Scanner sc) {
         this.banco = banco;
@@ -29,10 +32,9 @@ public class MenuTarjetas {
                     emitirTarjeta();
                     break;
                 case "2":
-                    
+                    vincularTarjeta();
                     break;
-                case "3":
-                    
+                case "0":
                     break;
                 default:
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
@@ -51,6 +53,31 @@ public class MenuTarjetas {
         gestorTarjetas.agregarTarjeta(tarjeta);
         System.out.println("Tarjeta emitida exitosamente!");
         System.out.println("Numero: " + numeroTarjeta);
+    }
+    public void vincularTarjeta() {
+        System.out.println("==== VINCULAR TARJETA ====");
+        System.out.print("Ingrese el numero de tarjeta: ");
+        String numeroTarjeta = sc.nextLine();
+
+        Tarjeta tarjeta = gestorTarjetas.buscarTarjeta(numeroTarjeta);
+        if(tarjeta == null) {
+            System.out.println("Error: Tarjeta no encontrada.");
+            return;
+        }
+        System.out.print("Ingrese el numero de cuenta: ");
+        String numeroCuenta = sc.nextLine();
+        /*
+        CuentaBancaria cuenta = gestorCuentasBancarias.buscarCuenta(numeroCuenta);
+        if(cuenta == null) {
+            System.out.println("Error: Cuenta no encontrada.");
+            return;
+        }
+
+        // Crear la vinculación
+        CuentaTarjeta cuentaTarjeta = new CuentaTarjeta(tarjeta, cuenta);
+        cuenta.afiliarCuenta(cuentaTarjeta);
+        */
+        System.out.println("Tarjeta vinculada exitosamente a la cuenta!");
     }
 
 
