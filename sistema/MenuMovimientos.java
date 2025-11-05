@@ -21,8 +21,8 @@ public class MenuMovimientos {
             System.out.println("\n==== MENU MOVIMIENTOS ====");
             System.out.println("Desea realizar movimientos con:");
             System.out.println("1. Empleado");
-            System.out.println("2. Cajero automático");
-            System.out.println("0. Volver al menú principal");
+            System.out.println("2. Cajero automatico");
+            System.out.println("0. Volver al menu principal");
             opcion = sc.nextLine();
 
             switch (opcion) {
@@ -42,7 +42,7 @@ public class MenuMovimientos {
                     MenuSistema.limpiarPantalla();
                     break;
                 default:
-                    System.out.println("Opcion inválida.");
+                    System.out.println("Eleccion no valida. Por favor volver a ingresar.");
             }
         } while (!opcion.equalsIgnoreCase("0"));
     }

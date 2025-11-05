@@ -71,6 +71,7 @@ public class MenuCuentas {
         }
         CuentaBancaria cuenta = new CuentaBancaria(moneda);
         System.out.println("EL numero de la cuenta creada sera: "+cuenta.getNumeroCuenta());
+        this.banco.getHashCuentas().put(cuenta.getNumeroCuenta(), cuenta);
         cliente.agregarCuenta(cuenta);
     }
 

@@ -54,6 +54,7 @@ public class MenuTarjetas {
         String numeroTarjeta = gestorTarjetas.generarNumeroTarjeta();
         Tarjeta tarjeta = new Tarjeta(numeroTarjeta, compañia);
         gestorTarjetas.agregarTarjeta(tarjeta);
+        this.banco.getHashTarjetas().put(numeroTarjeta, tarjeta);
         System.out.println("Tarjeta emitida exitosamente!");
         System.out.println("Numero: " + numeroTarjeta);
     }
