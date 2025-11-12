@@ -1,6 +1,7 @@
 package sistema;
 
 import entidades.CuentaBancaria;
+import entidades.CuentaTarjeta;
 import entidades.Tarjeta;
 import gestores.GestorCuentasBancarias;
 import gestores.GestorTarjetas;
@@ -70,17 +71,17 @@ public class MenuTarjetas {
         }
         System.out.print("Ingrese el numero de cuenta: ");
         String numeroCuenta = sc.nextLine();
-        /*
+
         CuentaBancaria cuenta = gestorCuentasBancarias.buscarCuenta(numeroCuenta);
         if(cuenta == null) {
             System.out.println("Error: Cuenta no encontrada.");
             return;
         }
-
+/*
         // Crear la vinculación
         CuentaTarjeta cuentaTarjeta = new CuentaTarjeta(tarjeta, cuenta);
         cuenta.afiliarCuenta(cuentaTarjeta);
-        */
+*/
         System.out.println("Tarjeta vinculada exitosamente a la cuenta!");
     }
 

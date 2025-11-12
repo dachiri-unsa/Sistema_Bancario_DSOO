@@ -13,6 +13,14 @@ public class GestorCuentasBancarias {
     public void agregarCuenta(CuentaBancaria cuenta) {
         cuentas.add(cuenta);
     }
+    public CuentaBancaria buscarCuenta(String numeroCuenta) {
+        for (CuentaBancaria c : cuentas) {
+            if (c.getNumeroCuenta() == numeroCuenta) {
+                return c;
+            }
+        }
+        return null;
+    }
     public void listarCuentas() {
         for (CuentaBancaria c : cuentas) {
             System.out.println("- Numero de cuenta: "+c.getNumeroCuenta()+". Saldo: "+c.getSaldo()+"("+c.getTipoMoneda()+")");

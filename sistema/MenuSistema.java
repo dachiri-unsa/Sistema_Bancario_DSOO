@@ -55,7 +55,7 @@ public class MenuSistema {
                     break;
                 case "4":
                     limpiarPantalla();
-                    menuMovimientos.mostrarMenuMovimientos(); // ✅ corregido
+                    menuMovimientos.mostrarMenuMovimientos();
                     break;
                 case "0":
                     sesionActiva = false;
