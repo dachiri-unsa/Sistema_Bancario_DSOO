@@ -31,9 +31,11 @@ public class Banco {
         Cliente cliente1 = new Cliente("Ana", "Torres", "12345678", "987654321", "Lima");
         Cliente cliente2 = new Cliente("Luis", "Gómez", "87654321", "912345678", "Arequipa");
 
-        CuentaBancaria cuentaAnaSoles = new CuentaBancaria(TipoMoneda.Soles);
+        //Las siguientes 7 lineas son procesos en paralelo cuando se crea una nueva cuenta
+        //Se puede ver en MenuCuentas linea 72 y 75
+        CuentaBancaria cuentaAnaSoles = new CuentaBancaria(TipoMoneda.Soles,cliente1.getDNI());
         cuentaAnaSoles.incrementarSaldo(1500);
-        CuentaBancaria cuentaLuisDolares = new CuentaBancaria(TipoMoneda.Dolares);
+        CuentaBancaria cuentaLuisDolares = new CuentaBancaria(TipoMoneda.Dolares,cliente2.getDNI());
         cuentaLuisDolares.incrementarSaldo(2000);
 
         cliente1.agregarCuenta(cuentaAnaSoles);

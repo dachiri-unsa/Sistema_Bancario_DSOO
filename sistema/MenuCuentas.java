@@ -5,7 +5,7 @@ import java.util.Scanner;
 import entidades.Cliente;
 import entidades.CuentaBancaria;
 import entidades.TipoMoneda;
-
+// CuentaBancaria
 public class MenuCuentas {
     private Scanner sc;
     private Banco banco;
@@ -69,7 +69,7 @@ public class MenuCuentas {
             System.out.println("Eleccion no valida.");
             return;
         }
-        CuentaBancaria cuenta = new CuentaBancaria(moneda);
+        CuentaBancaria cuenta = new CuentaBancaria(moneda, cliente.getDNI());
         System.out.println("EL numero de la cuenta creada sera: "+cuenta.getNumeroCuenta());
         this.banco.getHashCuentas().put(cuenta.getNumeroCuenta(), cuenta);
         cliente.agregarCuenta(cuenta);

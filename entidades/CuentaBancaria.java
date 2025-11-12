@@ -7,9 +7,11 @@ public class CuentaBancaria {
     private String numeroCuenta;
     private TipoMoneda moneda;
     private double saldo;
+    //Referencia al cliente
+    private String dniCliente;
     private HistorialMovimientos historial;
 
-    public CuentaBancaria(TipoMoneda moneda) {
+    public CuentaBancaria(TipoMoneda moneda, String dniCliente) {
         this.numeroCuenta = ""+contadorCuentas;
         contadorCuentas++;
         this.moneda = moneda;
@@ -22,6 +24,8 @@ public class CuentaBancaria {
     public TipoMoneda getTipoMoneda() { return this.moneda; }
 
     public double getSaldo() { return this.saldo; }
+
+    public String getDniCliente() { return this.dniCliente; }
 
     public HistorialMovimientos getHistorial() { return this.historial; }
 

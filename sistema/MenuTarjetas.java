@@ -63,7 +63,6 @@ public class MenuTarjetas {
         System.out.println("==== VINCULAR TARJETA ====");
         System.out.print("Ingrese el numero de tarjeta: ");
         String numeroTarjeta = sc.nextLine();
-
         Tarjeta tarjeta = gestorTarjetas.buscarTarjeta(numeroTarjeta);
         if(tarjeta == null) {
             System.out.println("Error: Tarjeta no encontrada.");
@@ -77,11 +76,9 @@ public class MenuTarjetas {
             System.out.println("Error: Cuenta no encontrada.");
             return;
         }
-/*
-        // Crear la vinculación
+        // Realiza la vinculacion
         CuentaTarjeta cuentaTarjeta = new CuentaTarjeta(tarjeta, cuenta);
-        cuenta.afiliarCuenta(cuentaTarjeta);
-*/
+        banco.getGestorClientes().buscarCliente(cuenta.getDniCliente()).afiliarCuenta(cuentaTarjeta);;
         System.out.println("Tarjeta vinculada exitosamente a la cuenta!");
     }
 
