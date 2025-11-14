@@ -7,7 +7,7 @@ public class Main {
         banco.inicializarDatos();
         MenuSistema menu = new MenuSistema(banco);
         char continuar = menu.bienvenida();
-        if (continuar == 's' || continuar == 'S') menu.mostrarMenuPrincipal();
+        if (continuar == 's' || continuar == 'S') menu.mostrarMenuSistema();
         else menu.despedida();
     }
 }

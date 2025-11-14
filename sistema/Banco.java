@@ -3,6 +3,7 @@ package sistema;
 import java.util.HashMap;
 import gestores.*;
 import entidades.*;
+import java.util.List;
 
 public class Banco {
     private HashMap<String,CuentaBancaria> hashCuentas;
@@ -11,6 +12,8 @@ public class Banco {
     private GestorClientes gestorClientes;
     private GestorEmpleados gestorEmpleados;
     private GestorCajeros gestorCajeros;
+    private GestorUsuario gestorUsuario;
+    private GestorRoles gestorRoles;
 
     public Banco() {
         this.hashCuentas = new HashMap<>();
@@ -19,13 +22,18 @@ public class Banco {
         this.gestorClientes = new GestorClientes();
         this.gestorEmpleados = new GestorEmpleados();
         this.gestorCajeros = new GestorCajeros();
+        this.gestorUsuario = new GestorUsuario();
+        this.gestorRoles = new GestorRoles();
     }
+
     public HashMap<String,CuentaBancaria> getHashCuentas() { return this.hashCuentas; }
     public HashMap<String,Tarjeta> getHashTarjetas() { return this.hashTarjetas; }
     public GestorMovimientos getGestorMovimientos() { return this.gestorMovimientos; }
     public GestorClientes getGestorClientes() { return this.gestorClientes; }
     public GestorEmpleados getGestorEmpleados() { return this.gestorEmpleados; }
     public GestorCajeros getGestorCajeros() { return this.gestorCajeros; }
+    public GestorUsuario getGestorUsuario() { return this.gestorUsuario; }
+    public GestorRoles getGestorRoles() { return this.gestorRoles; }
 
     public void inicializarDatos() {
         Cliente cliente1 = new Cliente("Ana", "Torres", "12345678", "987654321", "Lima");
@@ -83,6 +91,23 @@ public class Banco {
         gestorMovimientos.registrarMovimiento(depositoAna);
         gestorMovimientos.registrarMovimiento(retiroLuis);
         gestorMovimientos.registrarMovimiento(transferencia);
+
+        Usuario usuarioAna = new Usuario("anaUser", "anaPass", cliente1.getDNI());
+        gestorUsuario.agregarUsuario(usuarioAna);
+        GestorRoles rolesAna = new GestorRoles();
+        rolesAna.agregarRol(new UsuarioRol("anaUser", List.of(TipoRol.Cliente)));
+
+        Usuario usuarioLuis = new Usuario("luisUser", "luisPass", cliente2.getDNI());
+        gestorUsuario.agregarUsuario(usuarioLuis);
+        rolesAna.agregarRol(new UsuarioRol("luisUser", List.of(TipoRol.Cliente)));
+
+        Usuario usuarioCarlos = new Usuario("admin", "1234", empleado1.getDNI());
+        gestorUsuario.agregarUsuario(usuarioCarlos);
+        rolesAna.agregarRol(new UsuarioRol("admin", List.of(TipoRol.Administrador, TipoRol.Cliente)));
+
+        Usuario usuarioMaria = new Usuario("asistente", "123", empleado2.getDNI());
+        gestorUsuario.agregarUsuario(usuarioMaria);
+        rolesAna.agregarRol(new UsuarioRol("asistente", List.of(TipoRol.Asistente)));
     }
 
 }

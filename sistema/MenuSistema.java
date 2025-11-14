@@ -1,21 +1,20 @@
 package sistema;
 
+import entidades.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class MenuSistema {
     private Banco banco;
-    private MenuClientes menuClientes;
-    private MenuCuentas menuCuentas;
-    private MenuTarjetas menuTarjetas;
+    private MenuPrincipal menuPrincipal;
     private MenuMovimientos menuMovimientos;
     private boolean sesionActiva;
     private Scanner sc = new Scanner(System.in);
+    private static Membership membership = new Membership();
 
     public MenuSistema(Banco banco) {
         this.banco = banco;
-        this.menuClientes = new MenuClientes(banco, sc);
-        this.menuCuentas = new MenuCuentas(banco, sc);
-        this.menuTarjetas = new MenuTarjetas(banco, sc);
+        this.menuPrincipal = new MenuPrincipal(banco, this, sc);
         this.menuMovimientos = new MenuMovimientos(banco, sc);
         this.sesionActiva = true;
     }
@@ -29,33 +28,27 @@ public class MenuSistema {
         return respuesta;
     }
 
-    public void mostrarMenuPrincipal() {
+    public void mostrarMenuSistema() {
         String opcion;
         do {
             System.out.println("\n==== BANCO ====");
             System.out.println("Ingrese una opcion: ");
-            System.out.println("1. Gestion de clientes.");
-            System.out.println("2. Gestion de cuentas.");
-            System.out.println("3. Gestion de tarjetas.");
-            System.out.println("4. Gestion de movimientos.");
+            System.out.println("1. Iniciar Sesion");
+            System.out.println("2. Ir a Cajero");
+            //System.out.println("3. Ir a Empleado");
             System.out.println("0. Salir.");
             opcion = sc.nextLine();
             switch (opcion) {
                 case "1":
                     limpiarPantalla();
-                    menuClientes.mostrarMenuClientes();
+                    new Login(this, this.sc).iniciar();
                     break;
                 case "2":
                     limpiarPantalla();
-                    menuCuentas.mostrarMenuCuentas();
+                    menuMovimientos.mostrarMenuMovimientos();
                     break;
                 case "3":
-                    limpiarPantalla();
-                    menuTarjetas.mostrarMenuTarjetas();
-                    break;
-                case "4":
-                    limpiarPantalla();
-                    menuMovimientos.mostrarMenuMovimientos();
+                    //faltaria un javax.websocket o jakarta.websocket
                     break;
                 case "0":
                     sesionActiva = false;
@@ -67,6 +60,34 @@ public class MenuSistema {
             }
         }
         while (!opcion.equalsIgnoreCase("0") && sesionActiva);
+    }
+
+    public void login(LoginView loginView) {
+        if (membership.validateUser(loginView.getUsername(), loginView.getPassword())) {
+            UsuarioSistema usuario = membership.getUser(loginView.getUsername());
+            if (usuario != null) {
+                System.out.println("\nBienvenido " + usuario.getPersona().getNombre() + " " + usuario.getPersona().getApellido());
+                System.out.println("Roles: " + usuario.getRoles());
+
+                if (usuario.getRoles().size() > 1 && usuario.getRoles().contains(TipoRol.Cliente)) {
+                    System.out.println("\nQuiere ingresar como Cliente o Empleado? (C/E)");
+                    String eleccion = sc.next();
+                    if (eleccion.equals("C")) { usuario.setRoles(Arrays.asList(TipoRol.Cliente)); }
+                }
+
+                SessionManager.setCurrentUser(usuario);
+                menuPrincipal.mostrarMenuPrincipal();
+            }
+        } else {
+            limpiarPantalla();
+            System.out.println("Credenciales incorrectas");
+            new Login(this, this.sc).iniciar();
+        }
+    }
+
+    public void LogOut() {
+        SessionManager.setCurrentUser(null);
+        mostrarMenuSistema();
     }
 
     public void despedida(){
