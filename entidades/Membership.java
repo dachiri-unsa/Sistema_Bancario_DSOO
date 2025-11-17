@@ -15,9 +15,6 @@ public class Membership {
         if (usuario == null) return null;
 
         Persona persona = GestorClientes.buscarPorDni(usuario.getDniPersona());
-        if (persona == null) {
-            persona = GestorEmpleados.buscarPorDni(usuario.getDniPersona());
-        }
         if (persona == null) return null;
 
         List<TipoRol> roles = GestorRoles.buscarRolesPorUsuario(usuario.getNombreUsuario());
