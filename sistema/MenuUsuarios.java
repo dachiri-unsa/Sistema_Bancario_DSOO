@@ -108,7 +108,7 @@ public class MenuUsuarios {
         usuario.setContraseña(contrasenia);
     }
     public void agregarRolAUsuario() {
-        System.out.println("Ingrese nombre del usuario a cambiar contraseña: ");
+        System.out.println("Ingrese nombre del usuario: ");
         Usuario usuario = GestorUsuario.buscarPorUsuario(sc.nextLine().trim());
         if (usuario == null) {
             System.out.println("No se encontro ese usuario.");
