@@ -1,10 +1,12 @@
 package sistema;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import entidades.Usuario;
 import entidades.UsuarioRol;
 import gestores.GestorUsuario;
+import gestores.GestorRoles;
 
 public class MenuUsuarios {
     private Banco banco;
@@ -86,6 +88,7 @@ public class MenuUsuarios {
 
         Usuario usuario = new Usuario(nombre, contrasenia, dniPersona);
         banco.getGestorUsuario().agregarUsuario(usuario);
+        banco.getGestorRoles().agregarRol(new UsuarioRol(nombre, new ArrayList<>()));
     }
     public void modificarContraseña() {
         System.out.println("Ingrese nombre del usuario a cambiar contraseña: ");

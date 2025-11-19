@@ -120,6 +120,8 @@ public class MenuEmpleados {
             System.out.println("El ID de empleado debe empezar con E.");
             return;
         }
+// Faltaria agregar rol empleado al momento de crear Usuario tipo empleado
+// si no tiene cuenta para ingresar, tambien pedir nombreUsuario y contraseñaUsuario
         Empleado empleado = new Empleado(id,nombre, apellidos, dni, telefono, direccion);
         banco.getGestorEmpleados().agregarEmpleado(empleado);
     }
