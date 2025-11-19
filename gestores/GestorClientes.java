@@ -37,4 +37,7 @@ public class GestorClientes {
         }
         return null;
     }
+    public void eliminarCliente (Cliente cliente) {
+        listaClientes.remove(cliente);
+    }
 }

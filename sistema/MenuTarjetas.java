@@ -51,9 +51,12 @@ public class MenuTarjetas {
     public void emitirTarjeta() {
         System.out.println("==== EMITIR TARJETA ====");
         System.out.print("Ingrese la compañia: ");
-        String compañia = sc.nextLine();
+        String compania = sc.nextLine();
+        if (compania.isEmpty()){
+            System.out.println("La compañia no puede estar vacio.");
+        }
         String numeroTarjeta = gestorTarjetas.generarNumeroTarjeta();
-        Tarjeta tarjeta = new Tarjeta(numeroTarjeta, compañia);
+        Tarjeta tarjeta = new Tarjeta(numeroTarjeta, compania);
         gestorTarjetas.agregarTarjeta(tarjeta);
         this.banco.getHashTarjetas().put(numeroTarjeta, tarjeta);
         System.out.println("Tarjeta emitida exitosamente!");

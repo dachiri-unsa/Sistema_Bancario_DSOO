@@ -18,7 +18,7 @@ public class Login {
         System.out.println("\n==== LOGIN ====");
         System.out.print("Ingrese su Usuario: ");
         String user = sc.nextLine();
-        System.out.print("Ingrese su Contrasenia: ");
+        System.out.print("Ingrese su Contraseña: ");
         String pass = sc.nextLine();
         this.login = new LoginView(user, pass);
         MenuSistema.limpiarPantalla();
