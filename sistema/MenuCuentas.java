@@ -5,6 +5,7 @@ import java.util.Scanner;
 import entidades.Cliente;
 import entidades.CuentaBancaria;
 import entidades.TipoMoneda;
+import entidades.TipoRol;
 import gestores.GestorCuentasBancarias;
 // CuentaBancaria
 public class MenuCuentas {
@@ -15,7 +16,7 @@ public class MenuCuentas {
         this.banco = banco;
         this.sc = sc;
     }
-    public void mostrarMenuCuentas() {
+    public void mostrarMenuCuentas(TipoRol rol) {
         String opcion;
         do {
             System.out.println("\n==== MENU CUENTAS ====");
@@ -23,6 +24,10 @@ public class MenuCuentas {
             System.out.println("1. Crear cuenta.");
             System.out.println("2. Consultar saldo.");
             System.out.println("3. Ver movimientos (transacciones).");
+            if (rol == TipoRol.Asistente || rol == TipoRol.Administrador) {
+                System.out.println("4. Modificar cuenta.");
+                System.out.println("5. Eliminar cuenta.");
+            }
             System.out.println("0. Volver al menu principal.");
 
             opcion = sc.nextLine();
@@ -35,6 +40,18 @@ public class MenuCuentas {
                     break;
                 case "3":
                     verMovimientos();
+                    break;
+                case "4":
+                    if (rol == TipoRol.Cliente) {
+                        break;
+                    }
+                    modificarCuenta();
+                    break;
+                case "5":
+                    if (rol == TipoRol.Cliente) {
+                        break;
+                    }
+                    eliminarCuenta();
                     break;
                 case "0":
                     MenuSistema.limpiarPantalla();
@@ -152,6 +169,15 @@ public class MenuCuentas {
         }
         System.out.println("Numero de cuenta no encontrado.");
     }
+
+    public void modificarCuenta() {
+// Aqui poner lo mismo XD
+    }
+
+    public void eliminarCuenta() {
+// XD
+    }
+
     public Cliente obtenerCliente() {
         System.out.println("Ingrese el DNI del cliente: ");
         String dni = sc.nextLine().trim();

@@ -1,6 +1,7 @@
 package sistema;
 
 import java.util.Scanner;
+import entidades.*;
 
 public class MenuPrincipal {
     private Banco banco;
@@ -21,26 +22,36 @@ public class MenuPrincipal {
 
     public void mostrarMenuPrincipal() {
         String opcion;
+        UsuarioSistema usuarioSistema= SessionManager.getCurrentUser();
+        TipoRol rol;
+        if (usuarioSistema.getRoles().contains(TipoRol.Administrador)) { rol = TipoRol.Administrador; }
+        else if (usuarioSistema.getRoles().contains(TipoRol.Asistente)) { rol = TipoRol.Asistente; }
+        else { rol = TipoRol.Cliente; }
         do {
             System.out.println("\n==== MENU PRINCIPAL ====");
             System.out.println("Ingrese una opcion: ");
-            System.out.println("1. Gestion de clientes.");
-            System.out.println("2. Gestion de cuentas.");
-            System.out.println("3. Gestion de tarjetas.");
+            System.out.println("1. Gestion de cuentas.");
+            System.out.println("2. Gestion de tarjetas.");
+            if (rol == TipoRol.Asistente || rol == TipoRol.Administrador) {
+                System.out.println("3. Gestion de clientes.");
+            }
             System.out.println("0. Cerrar Secion.");
             opcion = sc.nextLine();
             switch (opcion) {
                 case "1":
                     MenuSistema.limpiarPantalla();
-                    menuClientes.mostrarMenuClientes();
+                    menuCuentas.mostrarMenuCuentas(rol);
                     break;
                 case "2":
                     MenuSistema.limpiarPantalla();
-                    menuCuentas.mostrarMenuCuentas();
+                    menuTarjetas.mostrarMenuTarjetas();
                     break;
                 case "3":
+                    if (rol == TipoRol.Cliente) {
+                        break;
+                    }
                     MenuSistema.limpiarPantalla();
-                    menuTarjetas.mostrarMenuTarjetas();
+                    menuClientes.mostrarMenuClientes();
                     break;
                 case "0":
                     MenuSistema.limpiarPantalla();
