@@ -5,8 +5,15 @@ import interfaces.Funciones;
 
 public class Cajero extends Encargado implements Funciones {
 
-    public Cajero(String id, String nombre, String apellido, String dni, String telefono, String direccion) {
+    private boolean disponible;
+
+    public Cajero(String id, String nombre, String apellido, String dni, String telefono, String direccion, boolean disponible) {
         super(id, nombre, apellido, dni, telefono, direccion);
+        this.disponible = disponible;
+    }
+
+    public boolean getDisponible() {
+        return this.disponible;
     }
 
     @Override

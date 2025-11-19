@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class MenuSistema {
     private Banco banco;
     private MenuPrincipal menuPrincipal;
+    private Cajeros cajeros;
     private MenuMovimientos menuMovimientos;
     private boolean sesionActiva;
     private Scanner sc = new Scanner(System.in);
@@ -15,6 +16,7 @@ public class MenuSistema {
     public MenuSistema(Banco banco) {
         this.banco = banco;
         this.menuPrincipal = new MenuPrincipal(banco, this, sc);
+        this.cajeros = new Cajeros(banco, banco.getGestorCajeros(), sc);
         this.menuMovimientos = new MenuMovimientos(banco, sc);
         this.sesionActiva = true;
     }
@@ -45,7 +47,7 @@ public class MenuSistema {
                     break;
                 case "2":
                     limpiarPantalla();
-                    menuMovimientos.mostrarMenuMovimientos();
+                    cajeros.iniciar();
                     break;
                 case "3":
                     //faltaria un javax.websocket o jakarta.websocket

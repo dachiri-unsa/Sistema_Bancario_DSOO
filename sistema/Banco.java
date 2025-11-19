@@ -73,8 +73,8 @@ public class Banco {
         gestorEmpleados.agregarEmpleado(empleado1);
         gestorEmpleados.agregarEmpleado(empleado2);
 
-        Cajero cajero1 = new Cajero("C001", "Cajero", "Central", "00011122", "0800111222", "Lima");
-        Cajero cajero2 = new Cajero("C002", "Cajero", "Sur", "00011123", "0800111333", "Arequipa");
+        Cajero cajero1 = new Cajero("C001", "Cajero", "Central", "00011122", "0800111222", "Lima", true);
+        Cajero cajero2 = new Cajero("C002", "Cajero", "Sur", "00011123", "0800111333", "Arequipa", true);
 
         gestorCajeros.agregarCajero(cajero1);
         gestorCajeros.agregarCajero(cajero2);

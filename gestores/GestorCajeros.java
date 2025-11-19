@@ -23,6 +23,38 @@ public class GestorCajeros {
         return null;
     }
 
+    public int cajerosDisponibles() {
+        if (cajeros.isEmpty()) {
+            return 0;
+        }
+
+        int cajeroDisponibles = 0;
+        for (Cajero c : cajeros) {
+            if (c.getDisponible()) {
+                cajeroDisponibles++;
+            }
+        }
+
+        return cajeroDisponibles;
+    }
+
+    public void listarCajerosDisponibles() {
+        if (cajeros.isEmpty()) {
+            System.out.println("No hay cajeros registrados.");
+            return;
+        }
+        int cajeroDisponibles = 0;
+        for (Cajero c : cajeros) {
+            if (c.getDisponible()) {
+                cajeroDisponibles++;
+                System.out.println("- " + c);
+            }
+        }
+        if (cajeroDisponibles == 0) {
+            System.out.println("No hay cajeros disponibles.");
+        }
+    }
+
     public void listarCajeros() {
         if (cajeros.isEmpty()) {
             System.out.println("No hay cajeros registrados.");
