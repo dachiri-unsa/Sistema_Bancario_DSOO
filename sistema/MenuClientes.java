@@ -157,4 +157,17 @@ public class MenuClientes {
         System.out.println("==== LISTA DE CLIENTES ====");
         banco.getGestorClientes().listarClientes();
     }
+    public void eliminarCliente () {
+        System.out.println("==== ELIMINAR CLIENTE ====");
+        System.out.println("Ingresar el DNI del cliente a buscar.");
+        String dni = sc.nextLine().trim();
+        Cliente cliente = banco.getGestorClientes().buscarCliente(dni);
+        if (cliente != null) {
+            banco.getGestorClientes().eliminarCliente(cliente);
+            System.out.println("Cliente eliminado con exito.");
+        }
+        else {
+            System.out.println("Cliente no encontrado.");
+        }
+    }
 }
