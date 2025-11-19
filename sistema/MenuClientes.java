@@ -18,9 +18,10 @@ public class MenuClientes {
             System.out.println("Ingrese una opcion: ");
             System.out.println("1. Registrar Cliente.");
             System.out.println("2. Buscar Cliente.");
-            System.out.println("3. Lista de Clientes");
+            System.out.println("3. Modificar datos de un Cliente.");
+            System.out.println("4. Eliminar un cliente.");
+            System.out.println("5. Lista de Clientes");
             System.out.println("0. Volver al menu principal.");
-
             opcion = sc.nextLine();
             switch (opcion) {
                 case "1":
@@ -30,6 +31,12 @@ public class MenuClientes {
                     buscarCliente();
                     break;
                 case "3":
+                    modificarCliente();
+                    break;
+                case "4":
+                    eliminarCliente();
+                    break;
+                case "5":
                     listarClientes();
                     break;
                 case "0":
@@ -124,6 +131,26 @@ public class MenuClientes {
         else {
             System.out.println("Cliente no encontrado.");
         }
+    }
+
+    public void modificarCliente() {
+        System.out.println("==== MODIFICAR CLIENTE ====");
+        System.out.println("Ingresar el DNI del cliente a buscar.");
+        String dni = sc.nextLine().trim();
+        Cliente cliente = banco.getGestorClientes().buscarCliente(dni);
+        if (cliente != null) {
+            System.out.println("Cliente encontrado.");
+            System.out.println("Ingrese que dato modificar:");
+            System.out.println("1. Nombre");
+            System.out.println("2. Apellido");
+            System.out.println("3. Telefono");
+            System.out.println("4. Direccion");
+            System.out.println("5. Volver al Menu Clientes");
+        }
+        else {
+            System.out.println("Cliente no encontrado.");
+        }
+
     }
 
     public void listarClientes() {
