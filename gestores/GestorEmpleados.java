@@ -40,6 +40,10 @@ public class GestorEmpleados {
         return listaEmpleados;
     }
 
+    public void despedirEmpleado (Empleado empleado) {
+        empleados.remove(empleado);
+    }
+
     public static Empleado buscarPorDni(String dni) {
         for (Empleado c : empleados) {
             if ( c.getDNI().equals(dni)) {

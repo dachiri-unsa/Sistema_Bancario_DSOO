@@ -2,7 +2,9 @@ package sistema;
 
 import java.util.Scanner;
 
+import entidades.Cliente;
 import entidades.Empleado;
+import gestores.GestorEmpleados;
 
 public class MenuEmpleados {
     private Scanner sc;
@@ -122,6 +124,64 @@ public class MenuEmpleados {
         banco.getGestorEmpleados().agregarEmpleado(empleado);
     }
 // Aqui hacer lo mismo XD
-    public void modificarEmpleado() {}
-    public void eliminarEmpleado() {}
+    public void modificarEmpleado() {
+        System.out.println("==== MODIFICAR EMPLEADO ====");
+        System.out.println("Ingresar el DNI del empleado a buscar.");
+        String dni = sc.nextLine().trim();
+        Empleado empleado = GestorEmpleados.buscarPorDni(dni);
+        if (empleado != null) {
+            System.out.println("Empleado encontrado.");
+            System.out.println("Ingrese que dato modificar:");
+            System.out.println("1. Nombre");
+            System.out.println("2. Apellido");
+            System.out.println("3. Telefono");
+            System.out.println("4. Direccion");
+            System.out.println("5. Volver al Menu Clientes");
+            String opcion = sc.nextLine();
+            switch (opcion) {
+                case "1":
+                    System.out.println("Ingrese el nombre nuevo: ");
+                    String new_nombre = sc.nextLine();
+                    empleado.setNombre(new_nombre);
+                    break;
+                case "2":
+                    System.out.println("Ingrese el apellido nuevo: ");
+                    String new_apellido = sc.nextLine();
+                    empleado.setApellido(new_apellido);
+                    break;
+                case "3":
+                    System.out.println("Ingrese el nombre nuevo: ");
+                    String new_telefono = sc.nextLine();
+                    empleado.setTelefono(new_telefono);
+                    break;
+                case "4":
+                    System.out.println("Ingrese el nombre nuevo: ");
+                    String new_direccion = sc.nextLine();
+                    empleado.setDireccion(new_direccion);
+                    break;
+                case "5":
+                    MenuSistema.limpiarPantalla();
+                    break;
+                default:
+                    System.out.println("Eleccion no valida. Por favor volver a ingresar.");
+                    break;
+            }
+        }
+        else {
+            System.out.println("Empleado no encontrado.");
+        }
+    }
+    public void eliminarEmpleado() {
+        System.out.println("==== DESPEDIR EMPLEADO ====");
+        System.out.println("Ingresar el DNI del empleado a despedir.");
+        String dni = sc.nextLine().trim();
+        Empleado empleado = GestorEmpleados.buscarPorDni(dni);
+        if (empleado != null) {
+            banco.getGestorEmpleados().despedirEmpleado(empleado);
+            System.out.println("Empleado despedido con éxito.");
+        }
+        else {
+            System.out.println("Empleado no encontrado.");
+        }
+    }
 }
