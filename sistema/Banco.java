@@ -67,6 +67,7 @@ public class Banco {
         gestorClientes.agregarCliente(cliente1);
         gestorClientes.agregarCliente(cliente2);
 
+        // empleado1 id: "E001"   empleado2 id "E002"
         Empleado empleado1 = new Empleado("E001", "Carlos", "Mendoza", "45678901", "999111222", "Lima");
         Empleado empleado2 = new Empleado("E002", "Maria", "Fernandez", "45678902", "999333444", "Arequipa");
 
