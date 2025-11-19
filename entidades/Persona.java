@@ -24,4 +24,25 @@ public class Persona {
     public String getTelefono() { return this.telefono; }
 
     public String getDireccion() { return this.direccion; }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setDNI(String dni) {
+        this.dni = dni;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
 }

@@ -1,5 +1,6 @@
 package gestores;
 
+import entidades.Cliente;
 import entidades.CuentaBancaria;
 import java.util.ArrayList;
 
@@ -25,5 +26,8 @@ public class GestorCuentasBancarias {
         for (CuentaBancaria c : cuentas) {
             System.out.println("- Numero de cuenta: "+c.getNumeroCuenta()+". Saldo: "+c.getSaldo()+"("+c.getTipoMoneda()+")");
         }
+    }
+    public void eliminarCuenta (CuentaBancaria cuenta) {
+        cuentas.remove(cuenta);
     }
 }

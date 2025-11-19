@@ -146,6 +146,35 @@ public class MenuClientes {
             System.out.println("3. Telefono");
             System.out.println("4. Direccion");
             System.out.println("5. Volver al Menu Clientes");
+            String opcion = sc.nextLine();
+            switch (opcion) {
+                case "1":
+                    System.out.println("Ingrese el nombre nuevo: ");
+                    String new_nombre = sc.nextLine();
+                    cliente.setNombre(new_nombre);
+                    break;
+                case "2":
+                    System.out.println("Ingrese el apellido nuevo: ");
+                    String new_apellido = sc.nextLine();
+                    cliente.setApellido(new_apellido);
+                    break;
+                case "3":
+                    System.out.println("Ingrese el nombre nuevo: ");
+                    String new_telefono = sc.nextLine();
+                    cliente.setTelefono(new_telefono);
+                    break;
+                case "4":
+                    System.out.println("Ingrese el nombre nuevo: ");
+                    String new_direccion = sc.nextLine();
+                    cliente.setDireccion(new_direccion);
+                    break;
+                case "5":
+                    MenuSistema.limpiarPantalla();
+                    break;
+                default:
+                    System.out.println("Eleccion no valida. Por favor volver a ingresar.");
+                    break;
+            }
         }
         else {
             System.out.println("Cliente no encontrado.");

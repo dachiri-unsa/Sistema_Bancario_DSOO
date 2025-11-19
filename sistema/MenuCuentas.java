@@ -25,8 +25,7 @@ public class MenuCuentas {
             System.out.println("2. Consultar saldo.");
             System.out.println("3. Ver movimientos (transacciones).");
             if (rol == TipoRol.Asistente || rol == TipoRol.Administrador) {
-                System.out.println("4. Modificar cuenta.");
-                System.out.println("5. Eliminar cuenta.");
+                System.out.println("4. Eliminar cuenta.");
             }
             System.out.println("0. Volver al menu principal.");
 
@@ -42,12 +41,6 @@ public class MenuCuentas {
                     verMovimientos();
                     break;
                 case "4":
-                    if (rol == TipoRol.Cliente) {
-                        break;
-                    }
-                    modificarCuenta();
-                    break;
-                case "5":
                     if (rol == TipoRol.Cliente) {
                         break;
                     }
@@ -170,12 +163,49 @@ public class MenuCuentas {
         System.out.println("Numero de cuenta no encontrado.");
     }
 
-    public void modificarCuenta() {
-// Aqui poner lo mismo XD
-    }
-
     public void eliminarCuenta() {
-// XD
+        System.out.println("==== ELIMINAR CUENTA ====");
+        System.out.println("Ingresar el DNI del cliente a buscar.");
+        String dni = sc.nextLine().trim();
+        Cliente cliente = banco.getGestorClientes().buscarCliente(dni);
+        if (cliente != null) {
+            System.out.println("Cliente encontrado.");
+        }
+        else {
+            System.out.println("Cliente no encontrado.");
+            return;
+        }
+        GestorCuentasBancarias gestor = cliente.getGestorCuentasBancarias();
+        if (gestor.getCuentas().isEmpty()) {
+            System.out.println("El cliente no tiene cuentas disponibles.");
+            return;
+        }
+        String numeroCuenta;
+        if(gestor.getCuentas().size() > 1) {
+            System.out.println("Las cuentas del cliente: ");
+            gestor.listarCuentas();
+            System.out.println("Ingresar el numero de la cuenta a eliminar.");
+            numeroCuenta = sc.nextLine().trim();
+            if (numeroCuenta.isEmpty()) {
+                System.out.println("El numero de cuenta no puede estar vacio.");
+                return;
+            }
+            if (!numeroCuenta.matches("\\d+")) {
+                System.out.println("Solo debe contener números.");
+            }
+            for(CuentaBancaria c : gestor.getCuentas()) {
+                if (c.getNumeroCuenta().equals(numeroCuenta)) {
+                    cliente.getGestorCuentasBancarias().eliminarCuenta(c);
+                    return;
+                }
+            }
+        }
+        else {
+            CuentaBancaria c = gestor.getCuentas().get(0);
+            cliente.getGestorCuentasBancarias().eliminarCuenta(c);
+            return;
+        }
+        System.out.println("Numero de cuenta no encontrado.");
     }
 
     public Cliente obtenerCliente() {
