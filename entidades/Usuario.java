@@ -15,6 +15,7 @@ public class Usuario {
     public String getNombreUsuario() { return this.nombreUsuario; }
     public String getContrasenia() { return this.contrasenia; }
     public String getDniPersona() { return this.dniPersona; }
+    public void setContraseña(String nueva) { this.contrasenia = nueva; }
 
     public boolean login(){
         return this.nombreUsuario.equals(nombreUsuario) && this.contrasenia.equals(contrasenia) && this.estado;
