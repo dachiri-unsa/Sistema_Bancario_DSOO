@@ -9,6 +9,7 @@ public class MenuPrincipal {
     private MenuClientes menuClientes;
     private MenuCuentas menuCuentas;
     private MenuTarjetas menuTarjetas;
+    private MenuEmpleados menuEmpleados;
     private Scanner sc;
 
     public MenuPrincipal(Banco banco, MenuSistema menuSistema, Scanner sc) {
@@ -17,6 +18,7 @@ public class MenuPrincipal {
         this.menuClientes = new MenuClientes(banco, sc);
         this.menuCuentas = new MenuCuentas(banco, sc);
         this.menuTarjetas = new MenuTarjetas(banco, sc);
+        this.menuEmpleados = new MenuEmpleados(banco, sc);
         this.sc = sc;
     }
 
@@ -35,6 +37,9 @@ public class MenuPrincipal {
             if (rol == TipoRol.Asistente || rol == TipoRol.Administrador) {
                 System.out.println("3. Gestion de clientes.");
             }
+            if (rol == TipoRol.Administrador) {
+                System.out.println("4. Gestion de empleados");
+            }
             System.out.println("0. Cerrar Secion.");
             opcion = sc.nextLine();
             switch (opcion) {
@@ -52,6 +57,13 @@ public class MenuPrincipal {
                     }
                     MenuSistema.limpiarPantalla();
                     menuClientes.mostrarMenuClientes();
+                    break;
+                case "4":
+                    if (rol == TipoRol.Cliente || rol == TipoRol.Asistente) {
+                        break;
+                    }
+                    MenuSistema.limpiarPantalla();
+                    menuEmpleados.mostrarMenuEmpleados();
                     break;
                 case "0":
                     MenuSistema.limpiarPantalla();
