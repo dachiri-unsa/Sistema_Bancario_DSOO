@@ -74,6 +74,7 @@ public class MenuSistema {
                 if (usuario.getRoles().size() > 1 && usuario.getRoles().contains(TipoRol.Cliente)) {
                     System.out.println("\nQuiere ingresar como Cliente o Empleado? (C/E)");
                     String eleccion = sc.next();
+                    sc.nextLine();
                     if (eleccion.equals("C")) { usuario.setRoles(Arrays.asList(TipoRol.Cliente)); }
                 }
 

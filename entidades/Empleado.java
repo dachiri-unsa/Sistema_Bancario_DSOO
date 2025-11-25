@@ -72,4 +72,12 @@ public class Empleado extends Encargado implements Funciones {
             System.out.println("Fondos insuficientes.");
         }
     }
+
+    @Override
+    public void mostrarPermisos(){
+        System.out.println("Usted es empleado sus permisos son: \\n" + //
+                        "1. Gestion de tarjetas \\n" + //
+                        "2. Gestion de clientes \\n" + //
+                        "3. Gestion de cuentas\"");
+    }
 }

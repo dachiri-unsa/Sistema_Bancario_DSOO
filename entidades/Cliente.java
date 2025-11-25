@@ -33,4 +33,13 @@ public class Cliente extends Persona {
         return "Nombre completo: "+apellido+", "+nombre+
             "\nDNI: "+dni+". Telefono: "+telefono;
     }
+
+    @Override
+    public void mostrarPermisos(){
+        System.out.println("Usted es cliente sus permisos son: \\n" + //
+                        "1. Retirar \\n" + //
+                        "2. Transferir \\n" + //
+                        "3. Ver/eliminar tarjetas \\n" + //
+                        "4. Ver/eliminar cuentas\"");
+    }
 }

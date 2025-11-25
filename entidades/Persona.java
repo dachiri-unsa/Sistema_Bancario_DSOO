@@ -44,5 +44,7 @@ public class Persona {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-
+    public void mostrarPermisos(){
+        System.out.println("");
+    }
 }

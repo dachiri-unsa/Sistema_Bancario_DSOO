@@ -12,10 +12,20 @@ public class Membership {
 
     public UsuarioSistema getUser(String username) {
         Usuario usuario = GestorUsuario.buscarPorUsuario(username);
-        if (usuario == null) return null;
+        if (usuario == null) {
+            System.out.print("Error al encontrar usuario.");
+            return null;
+        }
 
         Persona persona = GestorClientes.buscarPorDni(usuario.getDniPersona());
-        if (persona == null) return null;
+        if (persona == null){
+            persona = GestorEmpleados.buscarPorDni(usuario.getDniPersona());
+            if (persona == null) {
+                System.out.print("Error al encontrar persona.");
+                return null;
+            }
+        } 
+
 
         List<TipoRol> roles = GestorRoles.buscarRolesPorUsuario(usuario.getNombreUsuario());
 
