@@ -1,12 +1,14 @@
 package sistema;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import entidades.Usuario;
 import entidades.UsuarioRol;
 import gestores.GestorUsuario;
 import gestores.GestorRoles;
+import entidades.TipoRol;
 
 public class MenuUsuarios {
     private Banco banco;
@@ -123,18 +125,23 @@ public class MenuUsuarios {
         System.out.println("3. Cliente.");
         System.out.println("0. Salir.");
         String opcion = sc.nextLine();
-// FALTARIA PONER A LOS ROLES
+        List<TipoRol> roles = new ArrayList<>();
         switch (opcion) {
             case "1":
+                roles.add(TipoRol.Administrador);
                 break;
             case "2":
+                roles.add(TipoRol.Asistente);
                 break;
             case "3":
+                roles.add(TipoRol.Cliente);
+                break;
+            case "0":
                 break;
             default:
                 System.out.println("Opcion no valida.");
                 break;
         }
-        new UsuarioRol(usuario.getNombreUsuario(), null);
+        banco.getGestorRoles().agregarRol(new UsuarioRol(usuario.getNombreUsuario(), roles));
     }
 }
