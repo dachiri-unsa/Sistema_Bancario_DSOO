@@ -2,7 +2,7 @@ package entidades;
 
 public class Deposito extends Movimiento {
 
-    public Deposito(double monto, String descripcion, CuentaBancaria origen, Encargado encargado) {
+    public Deposito(double monto, String descripcion, CuentaBancaria origen, String encargado) {
         super(monto, descripcion, origen, encargado);
     }
 

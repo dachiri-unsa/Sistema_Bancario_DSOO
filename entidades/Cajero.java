@@ -3,17 +3,25 @@ package entidades;
 import gestores.GestorMovimientos;
 import interfaces.Funciones;
 
-public class Cajero extends Encargado implements Funciones {
-
+public class Cajero implements Funciones {
+    private String Id;
     private boolean disponible;
 
-    public Cajero(String id, String nombre, String apellido, String dni, String telefono, String direccion, boolean disponible) {
-        super(id, nombre, apellido, dni, telefono, direccion);
+    public Cajero(String Id, boolean disponible) {
+        this.Id = Id;
         this.disponible = disponible;
     }
 
     public boolean getDisponible() {
         return this.disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public String getId() {
+        return this.Id;
     }
 
     @Override
@@ -24,7 +32,7 @@ public class Cajero extends Encargado implements Funciones {
             return;
         }
 
-        Movimiento deposito = new Deposito(monto, "Deposito por cajero", cuenta, this);
+        Movimiento deposito = new Deposito(monto, "Deposito por cajero", cuenta, this.Id);
         if (deposito.procesar()) {
             gestor.registrarMovimiento(deposito);
             System.out.println("Deposito exitoso.");
@@ -41,7 +49,7 @@ public class Cajero extends Encargado implements Funciones {
             return;
         }
 
-        Movimiento retiro = new Retiro(monto, "Retiro por cajero", cuenta, this);
+        Movimiento retiro = new Retiro(monto, "Retiro por cajero", cuenta, this.Id);
         if (retiro.procesar()) {
             gestor.registrarMovimiento(retiro);
             System.out.println("Retiro exitoso.");

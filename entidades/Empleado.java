@@ -1,12 +1,34 @@
 package entidades;
 
+import java.util.List;
+
 import gestores.GestorMovimientos;
+import gestores.GestorPermisos;
 import interfaces.Funciones;
 
-public class Empleado extends Encargado implements Funciones {
+public class Empleado extends Usuario implements Funciones {
 
-    public Empleado(String id, String nombre, String apellido, String dni, String telefono, String direccion) {
-        super(id, nombre, apellido, dni, telefono, direccion);
+    private String Id;
+
+    public Empleado(String nombre, String apellido, String dni, String telefono, String direccion,
+            String nombreUsuario, String contrasenia, String Id, boolean estado) {
+        super(nombre, apellido, dni, telefono, direccion, nombreUsuario, contrasenia, estado);
+        this.Id = Id;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public Empleado(Persona persona, String nombreUsuario, String contrasenia, String Id,
+            boolean estado) {
+        super(persona.getNombre(), persona.getApellido(), persona.getDNI(), persona.getTelefono(),
+                persona.getDireccion(), nombreUsuario, contrasenia, estado);
+        this.Id = Id;
     }
 
     @Override
@@ -17,7 +39,7 @@ public class Empleado extends Encargado implements Funciones {
             return;
         }
 
-        Movimiento deposito = new Deposito(monto, "Deposito por empleado", cuenta, this);
+        Movimiento deposito = new Deposito(monto, "Deposito por empleado", cuenta, this.Id);
         if (deposito.procesar()) {
             gestor.registrarMovimiento(deposito);
             System.out.println("Deposito exitoso.");
@@ -34,7 +56,7 @@ public class Empleado extends Encargado implements Funciones {
             return;
         }
 
-        Movimiento retiro = new Retiro(monto, "Retiro por empleado", cuenta, this);
+        Movimiento retiro = new Retiro(monto, "Retiro por empleado", cuenta, this.Id);
         if (retiro.procesar()) {
             gestor.registrarMovimiento(retiro);
             System.out.println("Retiro exitoso.");
@@ -44,7 +66,7 @@ public class Empleado extends Encargado implements Funciones {
     }
 
     public void depositarConCuenta(CuentaBancaria cuenta, double monto, GestorMovimientos gestor) {
-        Movimiento deposito = new Deposito(monto, "Deposito directo", cuenta, this);
+        Movimiento deposito = new Deposito(monto, "Deposito directo", cuenta, this.Id);
         if (deposito.procesar()) {
             gestor.registrarMovimiento(deposito);
             System.out.println("Deposito exitoso.");
@@ -54,7 +76,7 @@ public class Empleado extends Encargado implements Funciones {
     }
 
     public void retirarConCuenta(CuentaBancaria cuenta, double monto, GestorMovimientos gestor) {
-        Movimiento retiro = new Retiro(monto, "Retiro directo", cuenta, this);
+        Movimiento retiro = new Retiro(monto, "Retiro directo", cuenta, this.Id);
         if (retiro.procesar()) {
             gestor.registrarMovimiento(retiro);
             System.out.println("Retiro exitoso.");
@@ -64,7 +86,8 @@ public class Empleado extends Encargado implements Funciones {
     }
 
     public void transferir(CuentaBancaria origen, CuentaBancaria destino, double monto, GestorMovimientos gestor) {
-        Movimiento transferencia = new TransferenciaBancaria(monto, "Transferencia por empleado", origen, this, destino);
+        Movimiento transferencia = new TransferenciaBancaria(monto, "Transferencia por empleado", origen, this.Id,
+                destino);
         if (transferencia.procesar()) {
             gestor.registrarMovimiento(transferencia);
             System.out.println("Transferencia exitosa.");
@@ -74,10 +97,12 @@ public class Empleado extends Encargado implements Funciones {
     }
 
     @Override
-    public void mostrarPermisos(){
-        System.out.println("Usted es empleado sus permisos son: \\n" + //
-                        "1. Gestion de tarjetas \\n" + //
-                        "2. Gestion de clientes \\n" + //
-                        "3. Gestion de cuentas\"");
+    public List<String> getPermisos() {
+        return GestorPermisos.getPermisosByRol("Empleado");
+    }
+
+    @Override
+    public TipoRol getTipoRol() {
+        return TipoRol.Empleado;
     }
 }

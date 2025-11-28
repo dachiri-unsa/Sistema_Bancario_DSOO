@@ -3,7 +3,8 @@ package entidades;
 public class TransferenciaBancaria extends Movimiento {
     private CuentaBancaria destino;
 
-    public TransferenciaBancaria(double monto, String descripcion, CuentaBancaria origen, Encargado encargado, CuentaBancaria destino) {
+    public TransferenciaBancaria(double monto, String descripcion, CuentaBancaria origen, String encargado,
+            CuentaBancaria destino) {
         super(monto, descripcion, origen, encargado);
         this.destino = destino;
     }
@@ -27,6 +28,6 @@ public class TransferenciaBancaria extends Movimiento {
     @Override
     public String toString() {
         return "TRANSFERENCIA: " + fecha + " - " + descripcion + " -S/ " + monto +
-               " → Cuenta destino: " + destino.getNumeroCuenta();
+                " → Cuenta destino: " + destino.getNumeroCuenta();
     }
 }

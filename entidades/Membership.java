@@ -1,13 +1,12 @@
 package entidades;
 
-import java.util.ArrayList;
 import java.util.List;
 import gestores.*;
 
 public class Membership {
     public boolean validateUser(String username, String password) {
         Usuario usuario = GestorUsuario.buscarPorUsuario(username);
-        return usuario != null && usuario.getContrasenia().equals(password);
+        return usuario != null && util.PasswordUtil.checkPassword(password, usuario.getContrasenia());
     }
 
     public UsuarioSistema getUser(String username) {
@@ -17,18 +16,26 @@ public class Membership {
             return null;
         }
 
-        Persona persona = GestorClientes.buscarPorDni(usuario.getDniPersona());
-        if (persona == null){
-            persona = GestorEmpleados.buscarPorDni(usuario.getDniPersona());
+        Persona persona = GestorClientes.buscarPorDni(usuario.getDNI());
+        if (persona == null) {
+            persona = GestorEmpleados.buscarPorDni(usuario.getDNI());
             if (persona == null) {
-                System.out.print("Error al encontrar persona.");
-                return null;
+                persona = GestorAdministradores.buscarPorDni(usuario.getDNI());
+                if (persona == null) {
+                    System.out.print("Error al encontrar persona.");
+                    return null;
+                }
             }
-        } 
+        }
 
+        TipoRol rol = usuario.getTipoRol();
+        if (rol == null) {
+            System.out.print("Error al encontrar rol.");
+            return null;
+        }
 
-        List<TipoRol> roles = GestorRoles.buscarRolesPorUsuario(usuario.getNombreUsuario());
+        List<String> permisos = usuario.getPermisos();
 
-        return new UsuarioSistema(usuario.getNombreUsuario(), usuario.getContrasenia(), persona, roles);
+        return new UsuarioSistema(usuario.getNombreUsuario(), usuario.getContrasenia(), persona, rol, permisos);
     }
 }

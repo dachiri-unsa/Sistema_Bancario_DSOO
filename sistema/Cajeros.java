@@ -72,9 +72,9 @@ public class Cajeros {
 
     private void operacionesCajero(Cajero cajero) {
         mostrarCajero(cajero);
-        
+
         // if (this.tarjeta == null) {
-        //     tarjeta = seleccionarTarjeta();
+        // tarjeta = seleccionarTarjeta();
         // }
         System.out.println("=== OPERACIONES CAJERO ===");
         System.out.println("1. Depositar con tarjeta");
@@ -130,7 +130,7 @@ public class Cajeros {
         }
     }
 
-    private void mostrarCajero(Cajero cajero){
+    private void mostrarCajero(Cajero cajero) {
         System.out.print(cajero);
     }
 }

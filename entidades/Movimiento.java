@@ -7,9 +7,9 @@ public abstract class Movimiento {
     protected String descripcion;
     protected CuentaBancaria origen;
     protected LocalDateTime fecha;
-    protected Encargado encargado;
+    protected String encargado;
 
-    public Movimiento(double monto, String descripcion, CuentaBancaria origen, Encargado encargado) {
+    public Movimiento(double monto, String descripcion, CuentaBancaria origen, String encargado) {
         this.monto = monto;
         this.descripcion = descripcion;
         this.origen = origen;
@@ -17,15 +17,25 @@ public abstract class Movimiento {
         this.encargado = encargado;
     }
 
-    public Encargado getEncargado() { return encargado; }
+    public String getEncargado() {
+        return encargado;
+    }
 
-    public double getMonto() { return monto; }
+    public double getMonto() {
+        return monto;
+    }
 
-    public String getDescripcion() { return descripcion; }
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-    public CuentaBancaria getOrigen() { return origen; }
+    public CuentaBancaria getOrigen() {
+        return origen;
+    }
 
-    public LocalDateTime getFecha() { return fecha; }
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
 
     public abstract boolean procesar();
 

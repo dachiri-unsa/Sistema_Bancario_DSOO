@@ -6,19 +6,42 @@ public class UsuarioSistema {
     private String usuario;
     private String contrasenia;
     private Persona persona;
-    private List<TipoRol> roles;
+    private TipoRol rol;
+    private List<String> permisos;
 
-    public UsuarioSistema(String usuario, String contrasenia, Persona persona, List<TipoRol> roles) {
+    public UsuarioSistema(String usuario, String contrasenia, Persona persona, TipoRol rol, List<String> permisos) {
         this.usuario = usuario;
         this.contrasenia = contrasenia;
         this.persona = persona;
-        this.roles = roles;
+        this.rol = rol;
+        this.permisos = permisos;
     }
 
-    public String getUsuario() { return usuario; }
-    public String getContrasenia() { return contrasenia; }
-    public Persona getPersona() { return persona; }
-    public List<TipoRol> getRoles() { return roles; }
+    public String getUsuario() {
+        return usuario;
+    }
 
-    public void setRoles(List<TipoRol> roles) { this.roles = roles; }
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public TipoRol getRol() {
+        return rol;
+    }
+
+    public void setRol(TipoRol rol) {
+        this.rol = rol;
+    }
+
+    public List<String> getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(List<String> permisos) {
+        this.permisos = permisos;
+    }
 }

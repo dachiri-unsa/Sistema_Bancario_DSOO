@@ -2,6 +2,7 @@ package sistema;
 
 import java.util.Scanner;
 import entidades.Cliente;
+import entidades.Persona;
 
 public class MenuClientes {
     private Scanner sc;
@@ -11,7 +12,12 @@ public class MenuClientes {
         this.banco = banco;
         this.sc = sc;
     }
+
     public void mostrarMenuClientes() {
+        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("CLIE")) {
+            System.out.println("No tiene permisos para acceder a este menu.");
+            return;
+        }
         String opcion;
         do {
             System.out.println("\n==== MENU CLIENTES ====");
@@ -46,14 +52,12 @@ public class MenuClientes {
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;
             }
-        }
-        while (!opcion.equalsIgnoreCase("0"));
+        } while (!opcion.equalsIgnoreCase("0"));
     }
-
 
     public void registrarCliente() {
         System.out.println("==== REGISTRANDO CLIENTE ====");
-    // ##### VALIDACION DE NOMBRE(S) #####
+        // ##### VALIDACION DE NOMBRE(S) #####
         System.out.println("Ingrese su nombre.");
         String nombre = sc.nextLine().trim();
         if (nombre.isEmpty()) {
@@ -68,8 +72,8 @@ public class MenuClientes {
             System.out.println("El nombre solo puede contener letras y espacios.");
             return;
         }
-        System.out.println("Nombre valido: "+nombre);
-    // ##### VALIDACION DE APELLIDOS #####
+        System.out.println("Nombre valido: " + nombre);
+        // ##### VALIDACION DE APELLIDOS #####
         System.out.println("Ingrese sus apellidos: ");
         String apellidos = sc.nextLine().trim();
         if (apellidos.isEmpty()) {
@@ -84,8 +88,8 @@ public class MenuClientes {
             System.out.println("Los apellidos solo puede contener letras y espacios.");
             return;
         }
-        System.out.println("Apellidos validos: "+apellidos);
-    // ##### VALIDACION DE DNI #####
+        System.out.println("Apellidos validos: " + apellidos);
+        // ##### VALIDACION DE DNI #####
         System.out.println("Ingrese su dni: ");
         String dni = sc.nextLine().trim();
         if (dni.isEmpty()) {
@@ -96,8 +100,8 @@ public class MenuClientes {
             System.out.println("El DNI debe contener exactamente 8 dígitos numéricos.");
             return;
         }
-        System.out.println("DNI valido: "+dni);
-    // ##### VALIDACION DE NUMERO DE TELEFONO #####
+        System.out.println("DNI valido: " + dni);
+        // ##### VALIDACION DE NUMERO DE TELEFONO #####
         System.out.println("Ingrese su telefono: ");
         String telefono = sc.nextLine().trim();
         if (telefono.isEmpty()) {
@@ -108,14 +112,15 @@ public class MenuClientes {
             System.out.println("El teléfono debe tener 9 dígitos y empezar con 9.");
             return;
         }
-    // ##### VALIDACION DE DIRECCION #####
+        // ##### VALIDACION DE DIRECCION #####
         System.out.println("Ingrese su direccion: ");
         String direccion = sc.nextLine().trim();
         if (direccion.isEmpty()) {
             System.out.println("La direccion no puede estar vacio.");
             return;
         }
-        Cliente cliente = new Cliente(nombre, apellidos, dni, telefono, direccion);
+        Persona persona = new Persona(nombre, apellidos, dni, telefono, direccion);
+        Cliente cliente = new Cliente(persona);
         banco.getGestorClientes().agregarCliente(cliente);
     }
 
@@ -127,8 +132,7 @@ public class MenuClientes {
         if (cliente != null) {
             System.out.println("Cliente encontrado.");
             System.out.println(cliente);
-        }
-        else {
+        } else {
             System.out.println("Cliente no encontrado.");
         }
     }
@@ -175,8 +179,7 @@ public class MenuClientes {
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;
             }
-        }
-        else {
+        } else {
             System.out.println("Cliente no encontrado.");
         }
 
@@ -186,7 +189,8 @@ public class MenuClientes {
         System.out.println("==== LISTA DE CLIENTES ====");
         banco.getGestorClientes().listarClientes();
     }
-    public void eliminarCliente () {
+
+    public void eliminarCliente() {
         System.out.println("==== ELIMINAR CLIENTE ====");
         System.out.println("Ingresar el DNI del cliente a buscar.");
         String dni = sc.nextLine().trim();
@@ -194,8 +198,7 @@ public class MenuClientes {
         if (cliente != null) {
             banco.getGestorClientes().eliminarCliente(cliente);
             System.out.println("Cliente eliminado con exito.");
-        }
-        else {
+        } else {
             System.out.println("Cliente no encontrado.");
         }
     }

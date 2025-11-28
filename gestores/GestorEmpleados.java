@@ -17,9 +17,9 @@ public class GestorEmpleados {
         empleados.add(empleado);
     }
 
-    public Empleado buscarEmpleado(String id) {
+    public Empleado buscarEmpleado(String dni) {
         for (Empleado e : listaEmpleados) {
-            if (e.getId().equalsIgnoreCase(id)) {
+            if (e.getDNI().equalsIgnoreCase(dni)) {
                 return e;
             }
         }
@@ -40,13 +40,13 @@ public class GestorEmpleados {
         return listaEmpleados;
     }
 
-    public void despedirEmpleado (Empleado empleado) {
+    public void despedirEmpleado(Empleado empleado) {
         empleados.remove(empleado);
     }
 
     public static Empleado buscarPorDni(String dni) {
         for (Empleado c : empleados) {
-            if ( c.getDNI().equals(dni)) {
+            if (c.getDNI().equals(dni)) {
                 return c;
             }
         }

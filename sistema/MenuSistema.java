@@ -1,23 +1,20 @@
 package sistema;
 
 import entidades.*;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class MenuSistema {
-    private Banco banco;
     private MenuPrincipal menuPrincipal;
     private Cajeros cajeros;
-    private MenuMovimientos menuMovimientos;
     private boolean sesionActiva;
     private Scanner sc = new Scanner(System.in);
     private static Membership membership = new Membership();
+    private Banco banco;
 
     public MenuSistema(Banco banco) {
         this.banco = banco;
         this.menuPrincipal = new MenuPrincipal(banco, this, sc);
         this.cajeros = new Cajeros(banco, banco.getGestorCajeros(), sc);
-        this.menuMovimientos = new MenuMovimientos(banco, sc);
         this.sesionActiva = true;
     }
 
@@ -37,7 +34,7 @@ public class MenuSistema {
             System.out.println("Ingrese una opcion: ");
             System.out.println("1. Iniciar Sesion");
             System.out.println("2. Ir a Cajero");
-            //System.out.println("3. Ir a Empleado");
+            System.out.println("3. Registrar Usuario");
             System.out.println("0. Salir.");
             opcion = sc.nextLine();
             switch (opcion) {
@@ -50,7 +47,8 @@ public class MenuSistema {
                     cajeros.iniciar();
                     break;
                 case "3":
-                    //faltaria un javax.websocket o jakarta.websocket
+                    limpiarPantalla();
+                    new Registro(this.banco, this.sc).iniciar();
                     break;
                 case "0":
                     sesionActiva = false;
@@ -60,23 +58,16 @@ public class MenuSistema {
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;
             }
-        }
-        while (!opcion.equalsIgnoreCase("0") && sesionActiva);
+        } while (!opcion.equalsIgnoreCase("0") && sesionActiva);
     }
 
     public void login(LoginView loginView) {
         if (membership.validateUser(loginView.getUsername(), loginView.getPassword())) {
             UsuarioSistema usuario = membership.getUser(loginView.getUsername());
             if (usuario != null) {
-                System.out.println("\nBienvenido " + usuario.getPersona().getNombre() + " " + usuario.getPersona().getApellido());
-                System.out.println("Roles: " + usuario.getRoles());
-
-                if (usuario.getRoles().size() > 1 && usuario.getRoles().contains(TipoRol.Cliente)) {
-                    System.out.println("\nQuiere ingresar como Cliente o Empleado? (C/E)");
-                    String eleccion = sc.next();
-                    sc.nextLine();
-                    if (eleccion.equals("C")) { usuario.setRoles(Arrays.asList(TipoRol.Cliente)); }
-                }
+                System.out.println(
+                        "\nBienvenido " + usuario.getPersona().getNombre() + " " + usuario.getPersona().getApellido());
+                System.out.println("Rol: " + usuario.getRol());
 
                 SessionManager.setCurrentUser(usuario);
                 menuPrincipal.mostrarMenuPrincipal();
@@ -93,7 +84,7 @@ public class MenuSistema {
         mostrarMenuSistema();
     }
 
-    public void despedida(){
+    public void despedida() {
         System.out.println("Gracias por usar el sistema bancario.");
         sc.close();
     }

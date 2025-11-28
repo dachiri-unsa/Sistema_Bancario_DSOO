@@ -1,7 +1,7 @@
 package entidades;
 
 public class Retiro extends Movimiento {
-    public Retiro(double monto, String descripcion, CuentaBancaria origen, Encargado encargado) {
+    public Retiro(double monto, String descripcion, CuentaBancaria origen, String encargado) {
         super(monto, descripcion, origen, encargado);
     }
 
@@ -17,6 +17,6 @@ public class Retiro extends Movimiento {
 
     @Override
     public String toString() {
-        return "RETIRO: " + fecha + " - " + descripcion + " -S/ " + monto ;
+        return "RETIRO: " + fecha + " - " + descripcion + " -S/ " + monto;
     }
 }

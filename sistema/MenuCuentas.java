@@ -7,6 +7,7 @@ import entidades.CuentaBancaria;
 import entidades.TipoMoneda;
 import entidades.TipoRol;
 import gestores.GestorCuentasBancarias;
+
 // CuentaBancaria
 public class MenuCuentas {
     private Scanner sc;
@@ -16,7 +17,12 @@ public class MenuCuentas {
         this.banco = banco;
         this.sc = sc;
     }
+
     public void mostrarMenuCuentas(TipoRol rol) {
+        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("CUEN")) {
+            System.out.println("No tiene permisos para acceder a este menu.");
+            return;
+        }
         String opcion;
         do {
             System.out.println("\n==== MENU CUENTAS ====");
@@ -24,7 +30,7 @@ public class MenuCuentas {
             System.out.println("1. Crear cuenta.");
             System.out.println("2. Consultar saldo.");
             System.out.println("3. Ver movimientos (transacciones).");
-            if (rol == TipoRol.Asistente || rol == TipoRol.Administrador) {
+            if (rol == TipoRol.Empleado || rol == TipoRol.Administrador) {
                 System.out.println("4. Eliminar cuenta.");
             }
             System.out.println("0. Volver al menu principal.");
@@ -53,8 +59,7 @@ public class MenuCuentas {
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;
             }
-        }
-        while (!opcion.equalsIgnoreCase("0"));
+        } while (!opcion.equalsIgnoreCase("0"));
     }
 
     public void crearCuenta() {
@@ -69,19 +74,16 @@ public class MenuCuentas {
         TipoMoneda moneda;
         if (tipoMoneda.equals("1")) {
             moneda = TipoMoneda.Soles;
-        }
-        else if (tipoMoneda.equals("2")) {
+        } else if (tipoMoneda.equals("2")) {
             moneda = TipoMoneda.Dolares;
-        }
-        else if (tipoMoneda.equals("3")) {
+        } else if (tipoMoneda.equals("3")) {
             moneda = TipoMoneda.Euros;
-        }
-        else {
+        } else {
             System.out.println("Eleccion no valida.");
             return;
         }
         CuentaBancaria cuenta = new CuentaBancaria(moneda, cliente.getDNI());
-        System.out.println("EL numero de la cuenta creada sera: "+cuenta.getNumeroCuenta());
+        System.out.println("EL numero de la cuenta creada sera: " + cuenta.getNumeroCuenta());
         this.banco.getHashCuentas().put(cuenta.getNumeroCuenta(), cuenta);
         cliente.agregarCuenta(cuenta);
     }
@@ -98,7 +100,7 @@ public class MenuCuentas {
             return;
         }
         String numeroCuenta;
-        if(gestor.getCuentas().size() > 1) {
+        if (gestor.getCuentas().size() > 1) {
             System.out.println("Las cuentas del cliente: ");
             gestor.listarCuentas();
             System.out.println("Ingresar el numero de la cuenta a consultar.");
@@ -110,20 +112,20 @@ public class MenuCuentas {
             if (!numeroCuenta.matches("\\d+")) {
                 System.out.println("Solo debe contener números.");
             }
-            for(CuentaBancaria c : gestor.getCuentas()) {
+            for (CuentaBancaria c : gestor.getCuentas()) {
                 if (c.getNumeroCuenta().equals(numeroCuenta)) {
-                    System.out.println("El saldo disponible en esa cuenta es: "+c.getSaldo());
+                    System.out.println("El saldo disponible en esa cuenta es: " + c.getSaldo());
                     return;
                 }
             }
-        }
-        else {
+        } else {
             CuentaBancaria c = gestor.getCuentas().get(0);
-            System.out.println("El saldo disponible de la cuenta "+c.getNumeroCuenta()+" es: "+c.getSaldo());
+            System.out.println("El saldo disponible de la cuenta " + c.getNumeroCuenta() + " es: " + c.getSaldo());
             return;
         }
         System.out.println("Numero de cuenta no encontrado.");
     }
+
     public void verMovimientos() {
         System.out.println("==== VER MOVIMIENTOS DE CUENTA ====");
         Cliente cliente = obtenerCliente();
@@ -136,7 +138,7 @@ public class MenuCuentas {
             return;
         }
         String numeroCuenta;
-        if(gestor.getCuentas().size() > 1) {
+        if (gestor.getCuentas().size() > 1) {
             System.out.println("Las cuentas del cliente: ");
             gestor.listarCuentas();
             System.out.println("Ingresar el numero de la cuenta a consultar.");
@@ -148,16 +150,15 @@ public class MenuCuentas {
             if (!numeroCuenta.matches("\\d+")) {
                 System.out.println("Solo debe contener números.");
             }
-            for(CuentaBancaria c : gestor.getCuentas()) {
+            for (CuentaBancaria c : gestor.getCuentas()) {
                 if (c.getNumeroCuenta().equals(numeroCuenta)) {
                     c.getHistorial().listarMovimientos();
                     return;
                 }
             }
-        }
-        else {
+        } else {
             CuentaBancaria c = gestor.getCuentas().get(0);
-            System.out.println("El saldo disponible de la cuenta "+c.getNumeroCuenta()+" es: "+c.getSaldo());
+            System.out.println("El saldo disponible de la cuenta " + c.getNumeroCuenta() + " es: " + c.getSaldo());
             return;
         }
         System.out.println("Numero de cuenta no encontrado.");
@@ -170,8 +171,7 @@ public class MenuCuentas {
         Cliente cliente = banco.getGestorClientes().buscarCliente(dni);
         if (cliente != null) {
             System.out.println("Cliente encontrado.");
-        }
-        else {
+        } else {
             System.out.println("Cliente no encontrado.");
             return;
         }
@@ -181,7 +181,7 @@ public class MenuCuentas {
             return;
         }
         String numeroCuenta;
-        if(gestor.getCuentas().size() > 1) {
+        if (gestor.getCuentas().size() > 1) {
             System.out.println("Las cuentas del cliente: ");
             gestor.listarCuentas();
             System.out.println("Ingresar el numero de la cuenta a eliminar.");
@@ -193,14 +193,13 @@ public class MenuCuentas {
             if (!numeroCuenta.matches("\\d+")) {
                 System.out.println("Solo debe contener números.");
             }
-            for(CuentaBancaria c : gestor.getCuentas()) {
+            for (CuentaBancaria c : gestor.getCuentas()) {
                 if (c.getNumeroCuenta().equals(numeroCuenta)) {
                     cliente.getGestorCuentasBancarias().eliminarCuenta(c);
                     return;
                 }
             }
-        }
-        else {
+        } else {
             CuentaBancaria c = gestor.getCuentas().get(0);
             cliente.getGestorCuentasBancarias().eliminarCuenta(c);
             return;
@@ -223,8 +222,7 @@ public class MenuCuentas {
         if (cliente != null) {
             System.out.println("Cliente encontrado.");
             return cliente;
-        }
-        else {
+        } else {
             System.out.println("Cliente no encontrado.");
             return null;
         }

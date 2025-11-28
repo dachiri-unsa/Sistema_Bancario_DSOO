@@ -16,6 +16,10 @@ public class MenuMovimientos {
     }
 
     public void mostrarMenuMovimientos() {
+        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("MOVI")) {
+            System.out.println("No tiene permisos para acceder a este menu.");
+            return;
+        }
         String opcion;
         do {
             System.out.println("\n==== MENU MOVIMIENTOS ====");

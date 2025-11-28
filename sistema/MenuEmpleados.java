@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import entidades.Cliente;
 import entidades.Empleado;
+import entidades.Persona;
 import gestores.GestorEmpleados;
 
 public class MenuEmpleados {
@@ -14,7 +15,12 @@ public class MenuEmpleados {
         this.banco = banco;
         this.sc = sc;
     }
+
     public void mostrarMenuEmpleados() {
+        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("EMPL")) {
+            System.out.println("No tiene permisos para acceder a este menu.");
+            return;
+        }
         String opcion;
         do {
             System.out.println("\n==== MENU EMPLEADOS ====");
@@ -41,14 +47,13 @@ public class MenuEmpleados {
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;
             }
-        }
-        while (!opcion.equalsIgnoreCase("0"));
+        } while (!opcion.equalsIgnoreCase("0"));
     }
 
     public void registrarEmpleado() {
-        //El id en este caso tiene que ser E003
+        // El id en este caso tiene que ser E003
         System.out.println("==== REGISTRANDO EMPLEADO ====");
-    // #### VALIDACION DE NOMBRE(S) ####
+        // #### VALIDACION DE NOMBRE(S) ####
         System.out.println("Ingrese nombre del empleado.");
         String nombre = sc.nextLine().trim();
         if (nombre.isEmpty()) {
@@ -63,7 +68,7 @@ public class MenuEmpleados {
             System.out.println("El nombre solo puede contener letras y espacios.");
             return;
         }
-    // #### VALIDACION DE APELLIDOS ####
+        // #### VALIDACION DE APELLIDOS ####
         System.out.println("Ingrese los apellidos del empleado: ");
         String apellidos = sc.nextLine().trim();
         if (apellidos.isEmpty()) {
@@ -78,8 +83,8 @@ public class MenuEmpleados {
             System.out.println("Los apellidos solo puede contener letras y espacios.");
             return;
         }
-        System.out.println("Apellidos validos: "+apellidos);
-    // ##### VALIDACION DE DNI #####
+        System.out.println("Apellidos validos: " + apellidos);
+        // ##### VALIDACION DE DNI #####
         System.out.println("Ingrese el dni del empleado: ");
         String dni = sc.nextLine().trim();
         if (dni.isEmpty()) {
@@ -90,8 +95,8 @@ public class MenuEmpleados {
             System.out.println("El DNI debe contener exactamente 8 dígitos numéricos.");
             return;
         }
-        System.out.println("DNI valido: "+dni);
-    // ##### VALIDACION DE NUMERO DE TELEFONO #####
+        System.out.println("DNI valido: " + dni);
+        // ##### VALIDACION DE NUMERO DE TELEFONO #####
         System.out.println("Ingrese su telefono: ");
         String telefono = sc.nextLine().trim();
         if (telefono.isEmpty()) {
@@ -102,30 +107,33 @@ public class MenuEmpleados {
             System.out.println("El teléfono debe tener 9 dígitos y empezar con 9.");
             return;
         }
-    // ##### VALIDACION DE DIRECCION #####
+        // ##### VALIDACION DE DIRECCION #####
         System.out.println("Ingrese la direccion del empleado: ");
         String direccion = sc.nextLine().trim();
         if (direccion.isEmpty()) {
             System.out.println("La direccion no puede estar vacio.");
             return;
         }
-    // #### CREACION DEL ID ####
+        // #### CREACION DEL ID ####
         System.out.println("Ingrese el que sera el ID empleado (Ejemplo: E003): ");
         String id = sc.nextLine().trim();
         if (id.isEmpty()) {
             System.out.println("El ID no puede estar vacio.");
             return;
         }
-        if (!id.substring(0,1).equals("E")) {
+        if (!id.substring(0, 1).equals("E")) {
             System.out.println("El ID de empleado debe empezar con E.");
             return;
         }
-// Faltaria agregar rol empleado al momento de crear Usuario tipo empleado
-// si no tiene cuenta para ingresar, tambien pedir nombreUsuario y contraseñaUsuario
-        Empleado empleado = new Empleado(id,nombre, apellidos, dni, telefono, direccion);
+        // Faltaria agregar rol empleado al momento de crear Usuario tipo empleado
+        // si no tiene cuenta para ingresar, tambien pedir nombreUsuario y
+        // contraseñaUsuario
+        Persona persona = new Persona(nombre, apellidos, dni, telefono, direccion);
+        Empleado empleado = new Empleado(persona, persona.getDNI(), persona.getDNI(), id, true);
         banco.getGestorEmpleados().agregarEmpleado(empleado);
     }
-// Aqui hacer lo mismo XD
+
+    // Aqui hacer lo mismo XD
     public void modificarEmpleado() {
         System.out.println("==== MODIFICAR EMPLEADO ====");
         System.out.println("Ingresar el DNI del empleado a buscar.");
@@ -168,11 +176,11 @@ public class MenuEmpleados {
                     System.out.println("Eleccion no valida. Por favor volver a ingresar.");
                     break;
             }
-        }
-        else {
+        } else {
             System.out.println("Empleado no encontrado.");
         }
     }
+
     public void eliminarEmpleado() {
         System.out.println("==== DESPEDIR EMPLEADO ====");
         System.out.println("Ingresar el DNI del empleado a despedir.");
@@ -181,8 +189,7 @@ public class MenuEmpleados {
         if (empleado != null) {
             banco.getGestorEmpleados().despedirEmpleado(empleado);
             System.out.println("Empleado despedido con éxito.");
-        }
-        else {
+        } else {
             System.out.println("Empleado no encontrado.");
         }
     }
