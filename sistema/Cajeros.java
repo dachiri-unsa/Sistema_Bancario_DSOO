@@ -1,6 +1,9 @@
 package sistema;
 
 import entidades.*;
+import entidades.concretas.Cajero;
+import entidades.concretas.CuentaBancaria;
+import entidades.concretas.Tarjeta;
 import gestores.*;
 import interfaces.Funciones;
 

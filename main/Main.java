@@ -1,13 +1,12 @@
 package main;
+
+import javax.swing.SwingUtilities;
 import sistema.*;
+import ventanas.VentanaSistema;
 
 public class Main {
     public static void main(String[] args) {
-        Banco banco = new Banco();
-        banco.inicializarDatos();
-        MenuSistema menu = new MenuSistema(banco);
-        char continuar = menu.bienvenida();
-        if (continuar == 's' || continuar == 'S') menu.mostrarMenuSistema();
-        else menu.despedida();
+        SistemaBanco.getInstance();
+        SwingUtilities.invokeLater(() -> new VentanaSistema().setVisible(true));
     }
 }

@@ -1,8 +1,10 @@
 package sistema;
 
 import java.util.Scanner;
-import entidades.Cliente;
-import entidades.Persona;
+
+import entidades.concretas.Cliente;
+import entidades.concretas.Persona;
+import entidades.enumerables.TipoPermiso;
 
 public class MenuClientes {
     private Scanner sc;
@@ -14,7 +16,7 @@ public class MenuClientes {
     }
 
     public void mostrarMenuClientes() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("CLIE")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.CLIE)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }

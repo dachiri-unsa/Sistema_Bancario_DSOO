@@ -2,9 +2,9 @@ package sistema;
 
 import java.util.Scanner;
 
-import entidades.Usuario;
-import gestores.GestorUsuario;
-import entidades.LoginView;
+import entidades.concretas.LoginView;
+import entidades.concretas.Usuario;
+import entidades.enumerables.TipoPermiso;
 
 public class MenuUsuarios {
     private Banco banco;
@@ -16,7 +16,7 @@ public class MenuUsuarios {
     }
 
     public void mostrarMenuUsuarios() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("USUA")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.USUA)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }
@@ -86,12 +86,12 @@ public class MenuUsuarios {
         }
         System.out.println("DNI valido: " + dniPersona);
 
-        banco.getGestorUsuario().crearUsuario(dniPersona, new LoginView(nombre, contrasenia));
+        banco.getGestorUsuarios().crearUsuario(dniPersona, new LoginView(nombre, contrasenia));
     }
 
     public void modificarContraseña() {
         System.out.println("Ingrese nombre del usuario a cambiar contraseña: ");
-        Usuario usuario = GestorUsuario.buscarPorUsuario(sc.nextLine().trim());
+        Usuario usuario = banco.getGestorUsuarios().buscarPorUsuario(sc.nextLine().trim());
         if (usuario == null) {
             System.out.println("No se encontro ese usuario.");
             return;
@@ -107,7 +107,7 @@ public class MenuUsuarios {
             System.out.println("La contraseña es demasiado corta.");
             return;
         }
-        banco.getGestorUsuario().modificarContraseña(usuario.getNombreUsuario(), contrasenia);
+        banco.getGestorUsuarios().modificarContraseña(usuario.getNombreUsuario(), contrasenia);
     }
 
 }

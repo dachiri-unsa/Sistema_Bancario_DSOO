@@ -1,28 +1,30 @@
 package sistema;
 
-import entidades.CuentaBancaria;
-import entidades.CuentaTarjeta;
-import entidades.Tarjeta;
-import gestores.GestorCuentasBancarias;
+import gestores.GestorCuentas;
 import gestores.GestorTarjetas;
 
 import java.util.Scanner;
+
+import entidades.concretas.CuentaBancaria;
+import entidades.concretas.CuentaTarjeta;
+import entidades.concretas.Tarjeta;
+import entidades.enumerables.TipoPermiso;
 
 public class MenuTarjetas {
     private Scanner sc;
     private Banco banco;
     private GestorTarjetas gestorTarjetas;
-    private GestorCuentasBancarias gestorCuentasBancarias;
+    private GestorCuentas gestorCuentas;
 
     public MenuTarjetas(Banco banco, Scanner sc) {
         this.banco = banco;
         this.gestorTarjetas = new GestorTarjetas();
-        this.gestorCuentasBancarias = new GestorCuentasBancarias();
+        this.gestorCuentas = new GestorCuentas();
         this.sc = sc;
     }
 
     public void mostrarMenuTarjetas() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("TARJ")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.TARJ)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }
@@ -79,7 +81,7 @@ public class MenuTarjetas {
         System.out.print("Ingrese el numero de cuenta: ");
         String numeroCuenta = sc.nextLine();
 
-        CuentaBancaria cuenta = gestorCuentasBancarias.buscarCuenta(numeroCuenta);
+        CuentaBancaria cuenta = gestorCuentas.buscarCuenta(numeroCuenta);
         if (cuenta == null) {
             System.out.println("Error: Cuenta no encontrada.");
             return;

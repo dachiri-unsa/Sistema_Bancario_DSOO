@@ -1,43 +1,44 @@
 package gestores;
 
-import java.util.ArrayList;
-import entidades.Cliente;
 import java.util.List;
 
-public class GestorClientes {
-    private ArrayList<Cliente> listaClientes;
-    private static List<Cliente> clientes = new ArrayList<>();
+import entidades.concretas.Cliente;
+import interfaces.Gestor;
+import sincronizacion.SincronizadorEntidad;
 
-    public ArrayList<Cliente> getClientes() {
-        return listaClientes;
+public class GestorClientes implements Gestor<Cliente> {
+    private final SincronizadorEntidad<Cliente> sincronizadorClientes;
+
+    public GestorClientes(SincronizadorEntidad<Cliente> sincronizadorClientes) {
+        this.sincronizadorClientes = sincronizadorClientes;
     }
 
+    // Constructor vacío para compatibilidad
     public GestorClientes() {
-        this.listaClientes = new ArrayList<>();
+        this.sincronizadorClientes = new SincronizadorEntidad<>();
+    }
+
+    @Override
+    public void agregar(Cliente cliente) {
+        sincronizadorClientes.agregar(cliente);
     }
 
     public void agregarCliente(Cliente cliente) {
-        listaClientes.add(cliente);
-        clientes.add(cliente);
+        agregar(cliente);
+    }
+
+    @Override
+    public List<Cliente> listarTodos() {
+        return sincronizadorClientes.listarTodos();
+    }
+
+    @Override
+    public void eliminar(int index) {
+        sincronizadorClientes.eliminar(index);
     }
 
     public Cliente buscarCliente(String dni) {
-        for (Cliente c : listaClientes) {
-            if (c.getDNI().equals(dni)) {
-                return c;
-            }
-        }
-        return null;
-    }
-
-    public void listarClientes() {
-        for (Cliente c : listaClientes) {
-            System.out.println("-" + c.getNombre() + " (DNI:" + c.getDNI() + ")");
-        }
-    }
-
-    public static Cliente buscarPorDni(String dni) {
-        for (Cliente c : clientes) {
+        for (Cliente c : sincronizadorClientes.listarTodos()) {
             if (c.getDNI().equals(dni)) {
                 return c;
             }
@@ -46,6 +47,19 @@ public class GestorClientes {
     }
 
     public void eliminarCliente(Cliente cliente) {
-        listaClientes.remove(cliente);
+        int index = sincronizadorClientes.listarTodos().indexOf(cliente);
+        if (index != -1) {
+            sincronizadorClientes.eliminar(index);
+        }
+    }
+
+    public void listarClientes() {
+        if (sincronizadorClientes.listarTodos().isEmpty()) {
+            System.out.println("No hay clientes registrados.");
+            return;
+        }
+        for (Cliente c : sincronizadorClientes.listarTodos()) {
+            System.out.println("-" + c.getNombre() + " (DNI:" + c.getDNI() + ")");
+        }
     }
 }

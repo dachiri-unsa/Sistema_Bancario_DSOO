@@ -1,53 +1,81 @@
 package gestores;
 
-import java.util.ArrayList;
-import entidades.Tarjeta;
+import java.util.List;
 
-public class GestorTarjetas {
-    private ArrayList<Tarjeta> tarjetas;
+import entidades.concretas.Tarjeta;
+import interfaces.Gestor;
+import sincronizacion.SincronizadorEntidad;
+
+public class GestorTarjetas implements Gestor<Tarjeta> {
+    private final SincronizadorEntidad<Tarjeta> sincronizadorTarjetas;
+
+    public GestorTarjetas(SincronizadorEntidad<Tarjeta> sincronizadorTarjetas) {
+        this.sincronizadorTarjetas = sincronizadorTarjetas;
+    }
 
     public GestorTarjetas() {
-        this.tarjetas = new ArrayList<>();
+        this.sincronizadorTarjetas = new SincronizadorEntidad<>();
     }
 
-    public ArrayList<Tarjeta> getTarjetas() { return this.tarjetas; }
+    @Override
+    public void agregar(Tarjeta tarjeta) {
+        sincronizadorTarjetas.agregar(tarjeta);
+    }
+
     public void agregarTarjeta(Tarjeta tarjeta) {
-        tarjetas.add(tarjeta);
+        agregar(tarjeta);
     }
-    public String generarNumeroTarjeta() {
-        String numero = "";
-        for(int i = 0; i < 16; i++) {
-            int digito = (int)(Math.random() * 10);
-            numero +=digito;
-        }
-        return numero;
+
+    @Override
+    public List<Tarjeta> listarTodos() {
+        return sincronizadorTarjetas.listarTodos();
     }
+
+    @Override
+    public void eliminar(int index) {
+        sincronizadorTarjetas.eliminar(index);
+    }
+
     public Tarjeta buscarTarjeta(String numeroTarjeta) {
-        if(tarjetas.isEmpty()){
-            return null;
-        }
-        for (Tarjeta tarjeta : tarjetas) {
-            if(tarjeta.getNumeroTarjeta().equals(numeroTarjeta)){
+        for (Tarjeta tarjeta : sincronizadorTarjetas.listarTodos()) {
+            if (tarjeta.getNumeroTarjeta().equals(numeroTarjeta)) {
                 return tarjeta;
             }
         }
         return null;
     }
+
     public boolean eliminarTarjeta(String numeroTarjeta) {
-        if(tarjetas.isEmpty()){
-            return false;
-        }
-        for (Tarjeta tarjeta : tarjetas) {
-            if(tarjeta.getNumeroTarjeta().equals(numeroTarjeta)){
-                tarjetas.remove(tarjeta);
-                return true;
+        for (Tarjeta tarjeta : sincronizadorTarjetas.listarTodos()) {
+            if (tarjeta.getNumeroTarjeta().equals(numeroTarjeta)) {
+                int index = sincronizadorTarjetas.listarTodos().indexOf(tarjeta);
+                if (index != -1) {
+                    sincronizadorTarjetas.eliminar(index);
+                    return true;
+                }
             }
         }
         return false;
     }
-    public void  mostrarTarjetas() {
-        for (Tarjeta tarjeta : tarjetas) {
-            System.out.println(tarjeta);
+
+    public void listarTarjetas() {
+        if (sincronizadorTarjetas.listarTodos().isEmpty()) {
+            System.out.println("No hay tarjetas registradas.");
+            return;
         }
+        for (Tarjeta t : sincronizadorTarjetas.listarTodos()) {
+            System.out.println("- " + t.getNumeroTarjeta() + " (" + t.getCompania() + ")");
+        }
+    }
+
+    public String generarNumeroTarjeta() {
+        String numero;
+        do {
+            numero = "";
+            for (int i = 0; i < 16; i++) {
+                numero += (int) (Math.random() * 10);
+            }
+        } while (buscarTarjeta(numero) != null);
+        return numero;
     }
 }

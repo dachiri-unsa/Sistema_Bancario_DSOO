@@ -1,8 +1,10 @@
 package sistema;
 
 import java.util.Scanner;
-import entidades.Administrador;
-import entidades.Persona;
+
+import entidades.concretas.Administrador;
+import entidades.concretas.Persona;
+import entidades.enumerables.TipoPermiso;
 import gestores.GestorAdministradores;
 
 public class MenuAdministradores {
@@ -15,7 +17,7 @@ public class MenuAdministradores {
     }
 
     public void mostrarMenuAdministradores() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("ADMI")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.ADMI)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }
@@ -76,7 +78,7 @@ public class MenuAdministradores {
             return;
         }
 
-        if (GestorAdministradores.buscarPorDni(dni) != null) {
+        if (banco.getGestorAdministradores().buscarPorDni(dni) != null) {
             System.out.println("Ya existe un administrador con ese DNI.");
             return;
         }
@@ -102,10 +104,10 @@ public class MenuAdministradores {
         }
 
         Persona persona = new Persona(nombre, apellidos, dni, telefono, direccion);
-        Administrador admin = new Administrador(persona, usuario, util.PasswordUtil.hashPassword(password), true);
+        Administrador admin = new Administrador(persona, usuario,
+                util.PasswordUtil.hashPassword(password), true);
 
-        banco.getGestorAdministradores().agregarAdministrador(admin);
-        banco.getGestorUsuario().agregarUsuario(admin);
+        banco.getGestorAdministradores().agregar(admin);
         System.out.println("Administrador registrado con exito.");
     }
 
@@ -113,10 +115,11 @@ public class MenuAdministradores {
         System.out.println("==== MODIFICAR ADMINISTRADOR ====");
         System.out.println("Ingresar el DNI del administrador a buscar:");
         String dni = sc.nextLine().trim();
-        Administrador admin = GestorAdministradores.buscarPorDni(dni);
+        Administrador admin = banco.getGestorAdministradores().buscarPorDni(dni);
 
         if (admin != null) {
-            System.out.println("Administrador encontrado: " + admin.getNombre() + " " + admin.getApellido());
+            System.out.println("Administrador encontrado: " + admin.getNombre() + " " +
+                    admin.getApellido());
             System.out.println("Ingrese que dato modificar:");
             System.out.println("1. Nombre");
             System.out.println("2. Apellido");
@@ -158,14 +161,14 @@ public class MenuAdministradores {
         System.out.println("Ingresar el DNI del administrador a eliminar:");
         String dni = sc.nextLine().trim();
 
-        if (entidades.SessionManager.getCurrentUser().getPersona().getDNI().equals(dni)) {
+        if (entidades.concretas.SessionManager.getCurrentUser().getPersona().getDNI().equals(dni)) {
             System.out.println("No puedes eliminar tu propia cuenta de administrador.");
             return;
         }
 
-        Administrador admin = GestorAdministradores.buscarPorDni(dni);
+        Administrador admin = banco.getGestorAdministradores().buscarPorDni(dni);
         if (admin != null) {
-            banco.getGestorAdministradores().getAdministradores().remove(admin);
+            banco.getGestorAdministradores().eliminarAdministrador(admin);
             System.out.println("Administrador eliminado de la lista.");
         } else {
             System.out.println("Administrador no encontrado.");

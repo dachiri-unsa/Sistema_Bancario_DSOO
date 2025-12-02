@@ -2,11 +2,12 @@ package sistema;
 
 import java.util.Scanner;
 
-import entidades.Cliente;
-import entidades.CuentaBancaria;
-import entidades.TipoMoneda;
-import entidades.TipoRol;
-import gestores.GestorCuentasBancarias;
+import entidades.concretas.Cliente;
+import entidades.concretas.CuentaBancaria;
+import entidades.enumerables.TipoMoneda;
+import entidades.enumerables.TipoRol;
+import entidades.enumerables.TipoPermiso;
+import gestores.GestorCuentas;
 
 // CuentaBancaria
 public class MenuCuentas {
@@ -19,7 +20,7 @@ public class MenuCuentas {
     }
 
     public void mostrarMenuCuentas(TipoRol rol) {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("CUEN")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.CUEN)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }
@@ -94,7 +95,7 @@ public class MenuCuentas {
         if (cliente == null) {
             return;
         }
-        GestorCuentasBancarias gestor = cliente.getGestorCuentasBancarias();
+        GestorCuentas gestor = cliente.getGestorCuentas();
         if (gestor.getCuentas().isEmpty()) {
             System.out.println("El cliente no tiene cuentas disponibles.");
             return;
@@ -132,7 +133,7 @@ public class MenuCuentas {
         if (cliente == null) {
             return;
         }
-        GestorCuentasBancarias gestor = cliente.getGestorCuentasBancarias();
+        GestorCuentas gestor = cliente.getGestorCuentas();
         if (gestor.getCuentas().isEmpty()) {
             System.out.println("El cliente no tiene cuentas disponibles.");
             return;
@@ -175,7 +176,7 @@ public class MenuCuentas {
             System.out.println("Cliente no encontrado.");
             return;
         }
-        GestorCuentasBancarias gestor = cliente.getGestorCuentasBancarias();
+        GestorCuentas gestor = cliente.getGestorCuentas();
         if (gestor.getCuentas().isEmpty()) {
             System.out.println("El cliente no tiene cuentas disponibles.");
             return;
@@ -195,13 +196,13 @@ public class MenuCuentas {
             }
             for (CuentaBancaria c : gestor.getCuentas()) {
                 if (c.getNumeroCuenta().equals(numeroCuenta)) {
-                    cliente.getGestorCuentasBancarias().eliminarCuenta(c);
+                    cliente.getGestorCuentas().eliminarCuenta(c);
                     return;
                 }
             }
         } else {
             CuentaBancaria c = gestor.getCuentas().get(0);
-            cliente.getGestorCuentasBancarias().eliminarCuenta(c);
+            cliente.getGestorCuentas().eliminarCuenta(c);
             return;
         }
         System.out.println("Numero de cuenta no encontrado.");

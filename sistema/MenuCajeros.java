@@ -1,8 +1,9 @@
 package sistema;
 
 import java.util.Scanner;
-import entidades.Cajero;
-import gestores.GestorCajeros;
+
+import entidades.concretas.Cajero;
+import entidades.enumerables.TipoPermiso;
 
 public class MenuCajeros {
     private Scanner sc;
@@ -14,7 +15,7 @@ public class MenuCajeros {
     }
 
     public void mostrarMenuCajeros() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("CAJE")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.CAJE)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }
@@ -98,7 +99,7 @@ public class MenuCajeros {
         Cajero cajero = banco.getGestorCajeros().buscarCajero(id);
 
         if (cajero != null) {
-            banco.getGestorCajeros().getCajeros().remove(cajero);
+            banco.getGestorCajeros().eliminar(cajero);
             System.out.println("Cajero eliminado exitosamente.");
         } else {
             System.out.println("Cajero no encontrado.");

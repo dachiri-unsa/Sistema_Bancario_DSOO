@@ -1,6 +1,10 @@
 package sistema;
 
-import entidades.*;
+import entidades.concretas.LoginView;
+import entidades.concretas.Membership;
+import entidades.concretas.SessionManager;
+import entidades.concretas.UsuarioSistema;
+
 import java.util.Scanner;
 
 public class MenuSistema {
@@ -90,12 +94,13 @@ public class MenuSistema {
     }
 
     public static void limpiarPantalla() {
-        try {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        } catch (Exception e) {
-            System.out.println("Error al limpiar la consola: " + e.getMessage());
-        }
+        System.out.println("\n");
+        // try {
+        // System.out.print("\033[H\033[2J");
+        // System.out.flush();
+        // } catch (Exception e) {
+        // System.out.println("Error al limpiar la consola: " + e.getMessage());
+        // }
     }
 
 }

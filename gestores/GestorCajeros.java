@@ -1,21 +1,26 @@
 package gestores;
 
-import java.util.ArrayList;
-import entidades.Cajero;
+import java.util.List;
+import entidades.concretas.Cajero;
+import sincronizacion.SincronizadorEntidad;
 
 public class GestorCajeros {
-    private ArrayList<Cajero> cajeros;
+    private final SincronizadorEntidad<Cajero> sincronizadorCajeros;
+
+    public GestorCajeros(SincronizadorEntidad<Cajero> sincronizadorCajeros) {
+        this.sincronizadorCajeros = sincronizadorCajeros;
+    }
 
     public GestorCajeros() {
-        this.cajeros = new ArrayList<>();
+        this.sincronizadorCajeros = new SincronizadorEntidad<>();
     }
 
     public void agregarCajero(Cajero cajero) {
-        cajeros.add(cajero);
+        sincronizadorCajeros.agregar(cajero);
     }
 
     public Cajero buscarCajero(String id) {
-        for (Cajero c : cajeros) {
+        for (Cajero c : sincronizadorCajeros.listarTodos()) {
             if (c.getId().equalsIgnoreCase(id)) {
                 return c;
             }
@@ -24,27 +29,23 @@ public class GestorCajeros {
     }
 
     public int cajerosDisponibles() {
-        if (cajeros.isEmpty()) {
-            return 0;
-        }
-
         int cajeroDisponibles = 0;
-        for (Cajero c : cajeros) {
+        for (Cajero c : sincronizadorCajeros.listarTodos()) {
             if (c.getDisponible()) {
                 cajeroDisponibles++;
             }
         }
-
         return cajeroDisponibles;
     }
 
     public void listarCajerosDisponibles() {
-        if (cajeros.isEmpty()) {
+        List<Cajero> lista = sincronizadorCajeros.listarTodos();
+        if (lista.isEmpty()) {
             System.out.println("No hay cajeros registrados.");
             return;
         }
         int cajeroDisponibles = 0;
-        for (Cajero c : cajeros) {
+        for (Cajero c : lista) {
             if (c.getDisponible()) {
                 cajeroDisponibles++;
                 System.out.println("- " + c);
@@ -56,16 +57,29 @@ public class GestorCajeros {
     }
 
     public void listarCajeros() {
-        if (cajeros.isEmpty()) {
+        List<Cajero> lista = sincronizadorCajeros.listarTodos();
+        if (lista.isEmpty()) {
             System.out.println("No hay cajeros registrados.");
             return;
         }
-        for (Cajero c : cajeros) {
+        for (Cajero c : lista) {
             System.out.println("- " + c);
         }
     }
 
-    public ArrayList<Cajero> getCajeros() {
-        return cajeros;
+    public List<Cajero> listarTodos() {
+        return sincronizadorCajeros.listarTodos();
+    }
+
+    public void eliminar(int index) {
+        sincronizadorCajeros.eliminar(index);
+    }
+
+    public void eliminar(Cajero cajero) {
+        List<Cajero> lista = sincronizadorCajeros.listarTodos();
+        int index = lista.indexOf(cajero);
+        if (index != -1) {
+            sincronizadorCajeros.eliminar(index);
+        }
     }
 }

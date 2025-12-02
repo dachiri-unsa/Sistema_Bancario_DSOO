@@ -1,7 +1,8 @@
 package sistema;
 
-import entidades.LoginView;
 import java.util.Scanner;
+
+import entidades.concretas.LoginView;
 
 public class Login {
     private MenuSistema menuSistema;

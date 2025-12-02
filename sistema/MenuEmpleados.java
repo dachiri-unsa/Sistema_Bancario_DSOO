@@ -2,10 +2,9 @@ package sistema;
 
 import java.util.Scanner;
 
-import entidades.Cliente;
-import entidades.Empleado;
-import entidades.Persona;
-import gestores.GestorEmpleados;
+import entidades.concretas.Empleado;
+import entidades.concretas.Persona;
+import entidades.enumerables.TipoPermiso;
 
 public class MenuEmpleados {
     private Scanner sc;
@@ -17,7 +16,7 @@ public class MenuEmpleados {
     }
 
     public void mostrarMenuEmpleados() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("EMPL")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.EMPL)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }
@@ -138,7 +137,7 @@ public class MenuEmpleados {
         System.out.println("==== MODIFICAR EMPLEADO ====");
         System.out.println("Ingresar el DNI del empleado a buscar.");
         String dni = sc.nextLine().trim();
-        Empleado empleado = GestorEmpleados.buscarPorDni(dni);
+        Empleado empleado = banco.getGestorEmpleados().buscarPorDni(dni);
         if (empleado != null) {
             System.out.println("Empleado encontrado.");
             System.out.println("Ingrese que dato modificar:");
@@ -185,10 +184,15 @@ public class MenuEmpleados {
         System.out.println("==== DESPEDIR EMPLEADO ====");
         System.out.println("Ingresar el DNI del empleado a despedir.");
         String dni = sc.nextLine().trim();
-        Empleado empleado = GestorEmpleados.buscarPorDni(dni);
+        Empleado empleado = banco.getGestorEmpleados().buscarPorDni(dni);
         if (empleado != null) {
-            banco.getGestorEmpleados().despedirEmpleado(empleado);
-            System.out.println("Empleado despedido con éxito.");
+            int index = banco.getGestorEmpleados().listarTodos().indexOf(empleado);
+            if (index != -1) {
+                banco.getGestorEmpleados().eliminar(index);
+                System.out.println("Empleado despedido con éxito.");
+            } else {
+                System.out.println("Error al eliminar empleado.");
+            }
         } else {
             System.out.println("Empleado no encontrado.");
         }

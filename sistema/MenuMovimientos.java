@@ -1,8 +1,10 @@
 package sistema;
 
-import entidades.*;
-import gestores.*;
-import interfaces.Funciones;
+import entidades.concretas.Cajero;
+import entidades.concretas.CuentaBancaria;
+import entidades.concretas.Empleado;
+import entidades.concretas.Tarjeta;
+import entidades.enumerables.TipoPermiso;
 
 import java.util.Scanner;
 
@@ -16,7 +18,7 @@ public class MenuMovimientos {
     }
 
     public void mostrarMenuMovimientos() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("MOVI")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.MOVI)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }

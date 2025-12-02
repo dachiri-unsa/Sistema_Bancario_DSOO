@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import gestores.GestorPermisos;
+import entidades.enumerables.TipoPermiso;
 
 public class MenuPermisos {
     private Scanner sc;
@@ -15,7 +16,7 @@ public class MenuPermisos {
     }
 
     public void mostrarMenuPermisos() {
-        if (!entidades.SessionManager.getCurrentUser().getPermisos().contains("PERM")) {
+        if (!entidades.concretas.SessionManager.getCurrentUser().getPermisos().contains(TipoPermiso.PERM)) {
             System.out.println("No tiene permisos para acceder a este menu.");
             return;
         }
@@ -52,10 +53,10 @@ public class MenuPermisos {
         System.out.println("Roles disponibles: Administrador, Empleado, Cliente");
         System.out.println("Ingrese el rol a consultar:");
         String rol = sc.nextLine().trim();
-        List<String> permisos = GestorPermisos.getPermisosByRol(rol);
+        List<TipoPermiso> permisos = GestorPermisos.getPermisosByRol(rol);
         if (permisos != null) {
             System.out.println("Permisos para " + rol + ":");
-            for (String p : permisos) {
+            for (TipoPermiso p : permisos) {
                 System.out.println("- " + p);
             }
         } else {
@@ -67,18 +68,25 @@ public class MenuPermisos {
         System.out.println("Roles disponibles: Administrador, Empleado, Cliente");
         System.out.println("Ingrese el rol al que desea agregar un permiso:");
         String rol = sc.nextLine().trim();
-        List<String> permisos = GestorPermisos.getPermisosByRol(rol);
+        List<TipoPermiso> permisos = GestorPermisos.getPermisosByRol(rol);
 
         if (permisos == null) {
             System.out.println("Rol no encontrado.");
             return;
         }
 
-        ArrayList<String> permisosDisponibles = banco.getGestorPermisos().getListaPermisos();
+        ArrayList<TipoPermiso> permisosDisponibles = banco.getGestorPermisos().getListaPermisos();
         System.out.println("Permisos disponibles en el sistema: " + permisosDisponibles);
 
         System.out.println("Ingrese el codigo del permiso a agregar:");
-        String nuevoPermiso = sc.nextLine().trim().toUpperCase();
+        String nuevoPermisoStr = sc.nextLine().trim().toUpperCase();
+        TipoPermiso nuevoPermiso;
+        try {
+            nuevoPermiso = TipoPermiso.valueOf(nuevoPermisoStr);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Permiso no valido.");
+            return;
+        }
 
         if (!permisosDisponibles.contains(nuevoPermiso)) {
             System.out.println("El permiso ingresado no es valido (no existe en la lista global).");
@@ -88,7 +96,7 @@ public class MenuPermisos {
         if (permisos.contains(nuevoPermiso)) {
             System.out.println("El rol ya tiene este permiso.");
         } else {
-            List<String> nuevosPermisos = new ArrayList<>(permisos);
+            List<TipoPermiso> nuevosPermisos = new ArrayList<>(permisos);
             nuevosPermisos.add(nuevoPermiso);
             banco.getGestorPermisos().modificarPermisosByRol(rol, nuevosPermisos);
             System.out.println("Permiso agregado exitosamente.");
@@ -99,7 +107,7 @@ public class MenuPermisos {
         System.out.println("Roles disponibles: Administrador, Empleado, Cliente");
         System.out.println("Ingrese el rol al que desea quitar un permiso:");
         String rol = sc.nextLine().trim();
-        List<String> permisos = GestorPermisos.getPermisosByRol(rol);
+        List<TipoPermiso> permisos = GestorPermisos.getPermisosByRol(rol);
 
         if (permisos == null) {
             System.out.println("Rol no encontrado.");
@@ -108,10 +116,17 @@ public class MenuPermisos {
 
         System.out.println("Permisos actuales: " + permisos);
         System.out.println("Ingrese el codigo del permiso a quitar:");
-        String permisoQuitar = sc.nextLine().trim().toUpperCase();
+        String permisoQuitarStr = sc.nextLine().trim().toUpperCase();
+        TipoPermiso permisoQuitar;
+        try {
+            permisoQuitar = TipoPermiso.valueOf(permisoQuitarStr);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Permiso no valido.");
+            return;
+        }
 
         if (permisos.contains(permisoQuitar)) {
-            List<String> nuevosPermisos = new ArrayList<>(permisos);
+            List<TipoPermiso> nuevosPermisos = new ArrayList<>(permisos);
             nuevosPermisos.remove(permisoQuitar);
             banco.getGestorPermisos().modificarPermisosByRol(rol, nuevosPermisos);
             System.out.println("Permiso eliminado exitosamente.");

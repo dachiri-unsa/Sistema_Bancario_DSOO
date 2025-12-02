@@ -1,25 +1,53 @@
 package gestores;
 
-import java.util.ArrayList;
-import entidades.Empleado;
 import java.util.List;
 
-public class GestorEmpleados {
-    private ArrayList<Empleado> listaEmpleados;
-    private static List<Empleado> empleados = new ArrayList<>();
+import entidades.concretas.Empleado;
+import interfaces.Gestor;
+import sincronizacion.SincronizadorEntidad;
+
+public class GestorEmpleados implements Gestor<Empleado> {
+    private final SincronizadorEntidad<Empleado> sincronizadorEmpleados;
+
+    public GestorEmpleados(SincronizadorEntidad<Empleado> sincronizadorEmpleados) {
+        this.sincronizadorEmpleados = sincronizadorEmpleados;
+    }
 
     public GestorEmpleados() {
-        this.listaEmpleados = new ArrayList<>();
+        this.sincronizadorEmpleados = new SincronizadorEntidad<>();
+    }
+
+    @Override
+    public void agregar(Empleado empleado) {
+        sincronizadorEmpleados.agregar(empleado);
     }
 
     public void agregarEmpleado(Empleado empleado) {
-        listaEmpleados.add(empleado);
-        empleados.add(empleado);
+        agregar(empleado);
     }
 
-    public Empleado buscarEmpleado(String dni) {
-        for (Empleado e : listaEmpleados) {
-            if (e.getDNI().equalsIgnoreCase(dni)) {
+    @Override
+    public List<Empleado> listarTodos() {
+        return sincronizadorEmpleados.listarTodos();
+    }
+
+    @Override
+    public void eliminar(int index) {
+        sincronizadorEmpleados.eliminar(index);
+    }
+
+    public Empleado buscarEmpleado(String id) {
+        for (Empleado e : sincronizadorEmpleados.listarTodos()) {
+            if (e.getId().equalsIgnoreCase(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public Empleado buscarPorDni(String dni) {
+        for (Empleado e : sincronizadorEmpleados.listarTodos()) {
+            if (e.getDNI().equals(dni)) {
                 return e;
             }
         }
@@ -27,29 +55,12 @@ public class GestorEmpleados {
     }
 
     public void listarEmpleados() {
-        if (listaEmpleados.isEmpty()) {
+        if (sincronizadorEmpleados.listarTodos().isEmpty()) {
             System.out.println("No hay empleados registrados.");
             return;
         }
-        for (Empleado e : listaEmpleados) {
-            System.out.println("- " + e);
+        for (Empleado e : sincronizadorEmpleados.listarTodos()) {
+            System.out.println("- " + e.getNombre() + " (ID: " + e.getId() + ")");
         }
-    }
-
-    public ArrayList<Empleado> getEmpleados() {
-        return listaEmpleados;
-    }
-
-    public void despedirEmpleado(Empleado empleado) {
-        empleados.remove(empleado);
-    }
-
-    public static Empleado buscarPorDni(String dni) {
-        for (Empleado c : empleados) {
-            if (c.getDNI().equals(dni)) {
-                return c;
-            }
-        }
-        return null;
     }
 }
