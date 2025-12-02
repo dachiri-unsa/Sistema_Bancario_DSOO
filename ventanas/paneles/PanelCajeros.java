@@ -76,10 +76,6 @@ public class PanelCajeros extends JPanel implements SincronizacionCompartida.Act
     }
 
     @Override
-    public void actualizarLista(List<entidades.concretas.Administrador> lista) {
-    }
-
-    @Override
     public void actualizarCajeros(List<Cajero> lista) {
         modelo.setRowCount(0);
         for (Cajero c : lista) {

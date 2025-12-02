@@ -18,6 +18,7 @@ public class CuentaBancaria extends Entidad {
         contadorCuentas++;
         this.moneda = moneda;
         this.saldo = 0;
+        this.dniCliente = dniCliente;
         this.historial = new HistorialMovimientos();
     }
 

@@ -146,10 +146,6 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
     }
 
     @Override
-    public void actualizarLista(List<entidades.concretas.Administrador> lista) {
-    }
-
-    @Override
     public void actualizarEmpleados(List<Empleado> lista) {
         modelo.setRowCount(0);
         for (Empleado e : lista) {

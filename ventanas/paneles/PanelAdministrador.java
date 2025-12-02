@@ -32,7 +32,7 @@ public class PanelAdministrador extends JPanel implements SincronizacionComparti
         btnEliminar.addActionListener(e -> eliminarSeleccionado());
 
         SincronizacionCompartida.registrarListener(this);
-        actualizarLista(sistema.SistemaBanco.getInstance().getBanco().getGestorAdministradores().listarTodos());
+        actualizarAdministradores(sistema.SistemaBanco.getInstance().getBanco().getGestorAdministradores().listarTodos());
     }
 
     private void mostrarDialogoAgregar() {
@@ -85,7 +85,7 @@ public class PanelAdministrador extends JPanel implements SincronizacionComparti
     }
 
     @Override
-    public void actualizarLista(List<Administrador> lista) {
+    public void actualizarAdministradores(List<Administrador> lista) {
         modelo.setRowCount(0);
         for (Administrador a : lista) {
             modelo.addRow(new Object[] {

@@ -10,6 +10,9 @@ public class HistorialMovimientos {
     public HistorialMovimientos() {
         this.movimientos = new ArrayList<>();
     }
+    public ArrayList<Movimiento> getMovimientos() {
+        return this.movimientos;
+    }
 
     public void agregarMovimiento(Movimiento movimiento) {
         movimientos.add(movimiento);
