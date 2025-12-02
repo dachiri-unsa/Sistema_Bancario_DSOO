@@ -7,6 +7,7 @@ import entidades.concretas.Administrador;
 import entidades.concretas.Cajero;
 import entidades.concretas.CuentaBancaria;
 import entidades.concretas.Empleado;
+import entidades.concretas.Tarjeta;
 import sistema.SistemaBanco;
 
 public class SincronizacionCompartida {
@@ -23,11 +24,13 @@ public class SincronizacionCompartida {
         List<Cajero> cajeros = SistemaBanco.getInstance().getGestorCajeros().listarTodos();
         List<Empleado> empleados = SistemaBanco.getInstance().getGestorEmpleados().listarTodos();
         List<CuentaBancaria> cuentas = SistemaBanco.getInstance().getGestorCuentas().listarTodos();
+        List<Tarjeta> tarjetas = SistemaBanco.getInstance().getGestorTarjetas().listarTodos();
         for (Actualizable l : listeners) {
             l.actualizarAdministradores(administradores);
             l.actualizarCajeros(cajeros);
             l.actualizarEmpleados(empleados);
             l.actualizarCuentas(cuentas);
+            l.actualizarTarjetas(tarjetas);
         }
     }
 
@@ -36,5 +39,6 @@ public class SincronizacionCompartida {
         default void actualizarCajeros(List<Cajero> lista) {}
         default void actualizarEmpleados(List<Empleado> lista) {}
         default void actualizarCuentas(List<CuentaBancaria> lista) {}
+        default void actualizarTarjetas(List<Tarjeta> lista) {}
     }
 }

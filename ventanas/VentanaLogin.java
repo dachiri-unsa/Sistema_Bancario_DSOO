@@ -1,11 +1,9 @@
 package ventanas;
 
 import entidades.concretas.Usuario;
-import entidades.concretas.Persona;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
 
 public class VentanaLogin extends JFrame {
 

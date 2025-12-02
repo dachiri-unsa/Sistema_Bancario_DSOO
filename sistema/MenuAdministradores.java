@@ -5,7 +5,6 @@ import java.util.Scanner;
 import entidades.concretas.Administrador;
 import entidades.concretas.Persona;
 import entidades.enumerables.TipoPermiso;
-import gestores.GestorAdministradores;
 
 public class MenuAdministradores {
     private Scanner sc;
