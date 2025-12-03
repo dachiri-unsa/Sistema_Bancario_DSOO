@@ -2,30 +2,39 @@ package ventanas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import entidades.concretas.Usuario;
+import entidades.concretas.UsuarioSistema;
+import entidades.concretas.Persona;
+import entidades.concretas.SessionManager;
+import entidades.enumerables.TipoPermiso;
 import ventanas.paneles.*;
 
 public class VentanaPrincipal extends JFrame {
     private Usuario usuario;
     private CardLayout cardLayout;
     private JPanel contentPanel;
+    private UsuarioSistema usuarioSistema;
 
     public VentanaPrincipal(Usuario usuario) {
         this.usuario = usuario;
+        this.usuarioSistema = SessionManager.getCurrentUser();
 
         setTitle("Sistema Bancario");
-        setSize(800, 600);
+        setSize(900, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Header
         JPanel header = new JPanel(new BorderLayout());
         JLabel lblTitulo = new JLabel("Sistema Bancario");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
-        JLabel lblUsuario = new JLabel("Usuario: " + usuario.getNombre());
+        String usuarioText = usuario != null ? usuario.getNombre() : obtenerNombreDesdeSesion();
+        String rolText = usuarioSistema != null && usuarioSistema.getRol() != null ? usuarioSistema.getRol().toString() : "";
+        JLabel lblUsuario = new JLabel("Usuario: " + usuarioText + "   Rol: " + rolText);
         JButton btnCerrarSesion = new JButton("Cerrar Sesión");
         btnCerrarSesion.addActionListener(e -> {
+            SessionManager.setCurrentUser(null);
             dispose();
             VentanaLogin login = new VentanaLogin();
             login.setVisible(true);
@@ -38,36 +47,8 @@ public class VentanaPrincipal extends JFrame {
         header.add(lblTitulo, BorderLayout.WEST);
         header.add(rightHeader, BorderLayout.EAST);
 
-        // Sidebar
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        JButton btnInicio = new JButton("Inicio");
-        JButton btnCuentas = new JButton("Cuentas");
-        JButton btnTarjetas = new JButton("Tarjetas");
-        JButton btnClientes = new JButton("Clientes");
-        JButton btnAdministradores = new JButton("Administradores");
-        JButton btnEmpleados = new JButton("Empleados");
-        JButton btnUsuarios = new JButton("Usuarios");
-        JButton btnCajeros = new JButton("Cajeros");
-
-
-        sidebar.add(btnInicio);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(btnCuentas);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(btnTarjetas);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(btnClientes);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(btnAdministradores);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(btnEmpleados);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(btnUsuarios);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(btnCajeros);
-        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
@@ -90,19 +71,77 @@ public class VentanaPrincipal extends JFrame {
         contentPanel.add(panelUsuarios, "usuarios");
         contentPanel.add(panelCajeros, "cajeros");
 
+        JButton btnInicio = new JButton("Inicio");
+        sidebar.add(btnInicio);
+        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
         btnInicio.addActionListener(e -> cardLayout.show(contentPanel, "inicio"));
-        btnCuentas.addActionListener(e -> cardLayout.show(contentPanel, "cuentas"));
-        btnTarjetas.addActionListener(e -> cardLayout.show(contentPanel, "tarjetas"));
-        btnClientes.addActionListener(e -> cardLayout.show(contentPanel, "clientes"));
-        btnAdministradores.addActionListener(e -> cardLayout.show(contentPanel, "administradores"));
-        btnEmpleados.addActionListener(e -> cardLayout.show(contentPanel, "empleados"));
-        btnUsuarios.addActionListener(e -> cardLayout.show(contentPanel, "usuarios"));
-        btnCajeros.addActionListener(e -> cardLayout.show(contentPanel, "cajeros"));
+
+        if (tienePermiso(TipoPermiso.CUEN)) {
+            JButton btnCuentas = new JButton("Cuentas");
+            sidebar.add(btnCuentas);
+            sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+            btnCuentas.addActionListener(e -> cardLayout.show(contentPanel, "cuentas"));
+        }
+
+        if (tienePermiso(TipoPermiso.TARJ)) {
+            JButton btnTarjetas = new JButton("Tarjetas");
+            sidebar.add(btnTarjetas);
+            sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+            btnTarjetas.addActionListener(e -> cardLayout.show(contentPanel, "tarjetas"));
+        }
+
+        if (tienePermiso(TipoPermiso.CLIE)) {
+            JButton btnClientes = new JButton("Clientes");
+            sidebar.add(btnClientes);
+            sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+            btnClientes.addActionListener(e -> cardLayout.show(contentPanel, "clientes"));
+        }
+
+        if (tienePermiso(TipoPermiso.ADMI)) {
+            JButton btnAdministradores = new JButton("Administradores");
+            sidebar.add(btnAdministradores);
+            sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+            btnAdministradores.addActionListener(e -> cardLayout.show(contentPanel, "administradores"));
+        }
+
+        if (tienePermiso(TipoPermiso.EMPL)) {
+            JButton btnEmpleados = new JButton("Empleados");
+            sidebar.add(btnEmpleados);
+            sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+            btnEmpleados.addActionListener(e -> cardLayout.show(contentPanel, "empleados"));
+        }
+
+        if (tienePermiso(TipoPermiso.USUA)) {
+            JButton btnUsuarios = new JButton("Usuarios");
+            sidebar.add(btnUsuarios);
+            sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+            btnUsuarios.addActionListener(e -> cardLayout.show(contentPanel, "usuarios"));
+        }
+
+        if (tienePermiso(TipoPermiso.CAJE)) {
+            JButton btnCajeros = new JButton("Cajeros");
+            sidebar.add(btnCajeros);
+            sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+            btnCajeros.addActionListener(e -> cardLayout.show(contentPanel, "cajeros"));
+        }
 
         add(header, BorderLayout.NORTH);
         add(sidebar, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
 
         cardLayout.show(contentPanel, "inicio");
+    }
+
+    private boolean tienePermiso(TipoPermiso permiso) {
+        if (usuarioSistema == null || usuarioSistema.getPermisos() == null) return false;
+        List<TipoPermiso> permisos = usuarioSistema.getPermisos();
+        return permisos.contains(permiso);
+    }
+
+    private String obtenerNombreDesdeSesion() {
+        if (usuarioSistema == null) return "";
+        Persona p = usuarioSistema.getPersona();
+        if (p == null) return "";
+        return p.getNombre();
     }
 }
