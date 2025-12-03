@@ -86,7 +86,7 @@ public class MenuTarjetas {
             System.out.println("Error: Cuenta no encontrada.");
             return;
         }
-        // Realiza la vinculacion
+
         CuentaTarjeta cuentaTarjeta = new CuentaTarjeta(tarjeta, cuenta);
         banco.getGestorClientes().buscarCliente(cuenta.getDniCliente()).afiliarCuenta(cuentaTarjeta);
         ;

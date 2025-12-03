@@ -47,7 +47,7 @@ public class MenuUsuarios {
 
     public void registrarUsuario() {
         System.out.println("\n==== REGISTRANDO UN CLIENTE ====");
-        // #### VALIDACION DE NOMBRE USUARIO ####
+
         System.out.println("Ingrese nombre de usuario.");
         String nombre = sc.nextLine().trim();
         if (nombre.isEmpty()) {
@@ -62,7 +62,7 @@ public class MenuUsuarios {
             System.out.println("El nombre solo puede contener letras y espacios.");
             return;
         }
-        // #### VALIDACION DE CONTRASEÑA DE USUARIO ####
+
         System.out.println("Ingrese su contraseña de usuario.");
         String contrasenia = sc.nextLine().trim();
         if (contrasenia.isEmpty()) {
@@ -73,7 +73,7 @@ public class MenuUsuarios {
             System.out.println("La contraseña es demasiado corta.");
             return;
         }
-        // #### VALIDACION DE DNI PERSONA ####
+
         System.out.println("Ingrese su DNI: ");
         String dniPersona = sc.nextLine().trim();
         if (dniPersona.isEmpty()) {
@@ -84,6 +84,7 @@ public class MenuUsuarios {
             System.out.println("El DNI debe contener exactamente 8 dígitos numéricos.");
             return;
         }
+
         System.out.println("DNI valido: " + dniPersona);
 
         banco.getGestorUsuarios().crearUsuario(dniPersona, new LoginView(nombre, contrasenia));
@@ -96,7 +97,7 @@ public class MenuUsuarios {
             System.out.println("No se encontro ese usuario.");
             return;
         }
-        // #### VALIDACION DE CONTRASEÑA DE USUARIO ####
+
         System.out.println("Ingrese su nueva contraseña de usuario.");
         String contrasenia = sc.nextLine().trim();
         if (contrasenia.isEmpty()) {

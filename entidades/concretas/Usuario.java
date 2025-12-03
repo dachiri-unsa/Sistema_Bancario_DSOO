@@ -9,7 +9,6 @@ public class Usuario extends Persona {
     private String contrasenia;
     private boolean estado;
 
-    // Persona con usuario
     public Usuario(String nombre, String apellido, String dni, String telefono, String direccion, String nombreUsuario,
             String contrasenia, boolean estado) {
         super(nombre, apellido, dni, telefono, direccion);
@@ -18,7 +17,6 @@ public class Usuario extends Persona {
         this.estado = estado;
     }
 
-    // Constructor para GUI (Persona + Credenciales)
     public Usuario(Persona persona, String nombreUsuario, String contrasenia, boolean estado) {
         super(persona.getNombre(), persona.getApellido(), persona.getDNI(), persona.getTelefono(),
                 persona.getDireccion());
@@ -27,7 +25,6 @@ public class Usuario extends Persona {
         this.estado = estado;
     }
 
-    // Persona sin usuario
     public Usuario(Persona persona) {
         super(persona.getNombre(), persona.getApellido(), persona.getDNI(), persona.getTelefono(),
                 persona.getDireccion());

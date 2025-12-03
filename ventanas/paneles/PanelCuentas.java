@@ -22,7 +22,6 @@ public class PanelCuentas extends JPanel implements SincronizacionCompartida.Act
     private final Cliente cliente;
     public PanelCuentas(Usuario usuario) {
         setLayout(new BorderLayout());
-        // obtener la instancia Cliente a partir del usuario (por DNI)
         Cliente buscado = sistema.SistemaBanco.getInstance().getBanco()
                 .getGestorClientes().buscarCliente(usuario.getDNI());
         this.cliente = buscado;
@@ -94,15 +93,9 @@ public class PanelCuentas extends JPanel implements SincronizacionCompartida.Act
         if (tipo == null) return;
 
         try {
-            // crear cuenta y agregarla AL CLIENTE (que a su vez guarda en su GestorCuentas)
             CuentaBancaria cuenta = new CuentaBancaria(tipo, cliente.getDNI());
-            // ejemplo: saldo inicial 0 o puedes pedir otro dato si quieres
             cliente.agregarCuenta(cuenta);
-
-            // opcional: si quieres mantener el hash global en Banco (índice), sincronízalo
             sistema.SistemaBanco.getInstance().getBanco().getHashCuentas().put(cuenta.getNumeroCuenta(), cuenta);
-
-            // notificar para que la UI (y otros listados) se actualicen
             SincronizacionCompartida.notificarListeners();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al crear cuenta: " + ex.getMessage());

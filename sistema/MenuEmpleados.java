@@ -51,7 +51,7 @@ public class MenuEmpleados {
 
     public void registrarEmpleado() {
         System.out.println("==== REGISTRANDO EMPLEADO ====");
-        // #### VALIDACION DE NOMBRE(S) ####
+
         System.out.println("Ingrese nombre del empleado.");
         String nombre = sc.nextLine().trim();
         if (nombre.isEmpty()) {
@@ -66,7 +66,7 @@ public class MenuEmpleados {
             System.out.println("El nombre solo puede contener letras y espacios.");
             return;
         }
-        // #### VALIDACION DE APELLIDOS ####
+
         System.out.println("Ingrese los apellidos del empleado: ");
         String apellidos = sc.nextLine().trim();
         if (apellidos.isEmpty()) {
@@ -82,7 +82,7 @@ public class MenuEmpleados {
             return;
         }
         System.out.println("Apellidos validos: " + apellidos);
-        // ##### VALIDACION DE DNI #####
+
         System.out.println("Ingrese el dni del empleado: ");
         String dni = sc.nextLine().trim();
         if (dni.isEmpty()) {
@@ -94,7 +94,7 @@ public class MenuEmpleados {
             return;
         }
         System.out.println("DNI valido: " + dni);
-        // ##### VALIDACION DE NUMERO DE TELEFONO #####
+
         System.out.println("Ingrese su telefono: ");
         String telefono = sc.nextLine().trim();
         if (telefono.isEmpty()) {
@@ -105,16 +105,14 @@ public class MenuEmpleados {
             System.out.println("El teléfono debe tener 9 dígitos y empezar con 9.");
             return;
         }
-        // ##### VALIDACION DE DIRECCION #####
+
         System.out.println("Ingrese la direccion del empleado: ");
         String direccion = sc.nextLine().trim();
         if (direccion.isEmpty()) {
             System.out.println("La direccion no puede estar vacio.");
             return;
         }
-        // Faltaria agregar rol empleado al momento de crear Usuario tipo empleado
-        // si no tiene cuenta para ingresar, tambien pedir nombreUsuario y
-        // contraseñaUsuario
+
         Persona persona = new Persona(nombre, apellidos, dni, telefono, direccion);
         Empleado empleado = new Empleado(persona, persona.getDNI(), persona.getDNI(), true);
         banco.getGestorEmpleados().agregarEmpleado(empleado);

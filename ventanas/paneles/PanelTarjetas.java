@@ -25,7 +25,6 @@ public class PanelTarjetas extends JPanel implements SincronizacionCompartida.Ac
     public PanelTarjetas(Usuario usuario) {
         setLayout(new BorderLayout());
 
-        // localizar el cliente por DNI (puede ser null si no existe)
         GestorClientes gestorClientes = SistemaBanco.getInstance().getBanco().getGestorClientes();
         this.cliente = usuario == null ? null : gestorClientes.buscarCliente(usuario.getDNI());
 
@@ -114,7 +113,7 @@ public class PanelTarjetas extends JPanel implements SincronizacionCompartida.Ac
             Tarjeta tarjeta;
             if (tipoSel == 0) { // Débito
                 tarjeta = new Debito(numeroGenerado, compania, 0.0);
-            } else { // Crédito
+            } else {
                 tarjeta = new Credito(numeroGenerado, compania);
             }
 

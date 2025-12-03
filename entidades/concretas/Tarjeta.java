@@ -33,7 +33,6 @@ public class Tarjeta extends Entidad {
         this.compania = compania;
     }
 
-    // public boolean afiliarCuenta(CuentaBancaria cuenta) {
     public void afiliarCuenta(CuentaBancaria cuenta) {
         mapCuentasMoneda.put(cuenta.getTipoMoneda(), cuenta);
     }
@@ -43,7 +42,6 @@ public class Tarjeta extends Entidad {
     }
 
     public ArrayList<CuentaBancaria> getCuentasAfiliadas() {
-        // Esto transforma los valores del HashMap a un ArrayList.
         return new ArrayList<>(this.mapCuentasMoneda.values());
     }
 

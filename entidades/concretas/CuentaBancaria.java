@@ -9,7 +9,6 @@ public class CuentaBancaria extends Entidad {
     private String numeroCuenta;
     private TipoMoneda moneda;
     private double saldo;
-    // Referencia al cliente
     private String dniCliente;
     private HistorialMovimientos historial;
 
@@ -42,7 +41,6 @@ public class CuentaBancaria extends Entidad {
         return this.historial;
     }
 
-    // Considerar agregar al historia de movimientos de la cuenta (no cliente) XD
     public void incrementarSaldo(double monto) {
         this.saldo += monto;
     }

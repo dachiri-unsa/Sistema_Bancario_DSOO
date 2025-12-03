@@ -21,7 +21,6 @@ public class SincronizacionCompartida {
     }
 
     public static synchronized void notificarListeners() {
-        // Acceder al banco a traves de SistemaBanco
         List<Administrador> administradores = SistemaBanco.getInstance().getGestorAdministradores().listarTodos();
         List<Cajero> cajeros = SistemaBanco.getInstance().getGestorCajeros().listarTodos();
         List<Empleado> empleados = SistemaBanco.getInstance().getGestorEmpleados().listarTodos();

@@ -59,7 +59,6 @@ public class MenuClientes {
 
     public void registrarCliente() {
         System.out.println("==== REGISTRANDO CLIENTE ====");
-        // ##### VALIDACION DE NOMBRE(S) #####
         System.out.println("Ingrese su nombre.");
         String nombre = sc.nextLine().trim();
         if (nombre.isEmpty()) {
@@ -75,7 +74,7 @@ public class MenuClientes {
             return;
         }
         System.out.println("Nombre valido: " + nombre);
-        // ##### VALIDACION DE APELLIDOS #####
+
         System.out.println("Ingrese sus apellidos: ");
         String apellidos = sc.nextLine().trim();
         if (apellidos.isEmpty()) {
@@ -91,7 +90,7 @@ public class MenuClientes {
             return;
         }
         System.out.println("Apellidos validos: " + apellidos);
-        // ##### VALIDACION DE DNI #####
+
         System.out.println("Ingrese su dni: ");
         String dni = sc.nextLine().trim();
         if (dni.isEmpty()) {
@@ -103,7 +102,7 @@ public class MenuClientes {
             return;
         }
         System.out.println("DNI valido: " + dni);
-        // ##### VALIDACION DE NUMERO DE TELEFONO #####
+
         System.out.println("Ingrese su telefono: ");
         String telefono = sc.nextLine().trim();
         if (telefono.isEmpty()) {
@@ -114,11 +113,11 @@ public class MenuClientes {
             System.out.println("El teléfono debe tener 9 dígitos y empezar con 9.");
             return;
         }
-        // ##### VALIDACION DE DIRECCION #####
+
         System.out.println("Ingrese su direccion: ");
         String direccion = sc.nextLine().trim();
         if (direccion.isEmpty()) {
-            System.out.println("La direccion no puede estar vacio.");
+            System.out.println("La direccion no puede estar vacia.");
             return;
         }
         Persona persona = new Persona(nombre, apellidos, dni, telefono, direccion);

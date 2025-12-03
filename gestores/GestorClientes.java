@@ -13,7 +13,6 @@ public class GestorClientes implements Gestor<Cliente> {
         this.sincronizadorClientes = sincronizadorClientes;
     }
 
-    // Constructor vacío para compatibilidad
     public GestorClientes() {
         this.sincronizadorClientes = new SincronizadorEntidad<>();
     }

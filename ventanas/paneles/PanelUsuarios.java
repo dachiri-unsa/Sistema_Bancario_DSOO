@@ -86,7 +86,36 @@ public class PanelUsuarios extends JPanel implements SincronizacionCompartida.Ac
                 String usuarioTxt = txtUsuario.getText().trim();
                 String contrasenia = new String(txtContrasenia.getPassword()).trim();
                 String rol = (String) cmbRol.getSelectedItem();
-
+                if (nombre.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El nombre es demasiado corto.");
+                    return;
+                }
+                if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
+                    return;
+                }
+                if (apellido.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El apellido es demasiado corto.");
+                    return;
+                }
+                if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El apellido solo puede contener letras y espacios.");
+                    return;
+                }
+                if (contrasenia.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "La contraseña es demasiado corta.");
+                    return;
+                }
+                if (!dni.matches("\\d{8}")) {
+                    JOptionPane.showMessageDialog(this, "El DNI debe contener exactamente 8 dígitos numéricos.");
+                    return;
+                }
+                if(!telefono.isEmpty()){
+                    if (!telefono.matches("\\d{9}")) {
+                        JOptionPane.showMessageDialog(this, "El telefono debe contener exactamente 9 dígitos numéricos.");
+                        return;
+                    }
+                }
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || usuarioTxt.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Nombre, Apellido, DNI y Usuario son obligatorios.");
                     return;
@@ -99,15 +128,12 @@ public class PanelUsuarios extends JPanel implements SincronizacionCompartida.Ac
 
                 Persona persona = new Persona(nombre, apellido, dni, telefono, direccion);
 
-                // Para siempre crear solo Usuario usar `new Usuario(persona, usuarioTxt, contrasenia, true)`.
                 Usuario nuevo;
                 switch (rol) {
                     case "Cliente":
                         nuevo = new Cliente(persona, usuarioTxt, contrasenia, true);
                         break;
                     case "Empleado":
-                        // Empleado tiene constructor similar a Cliente en tu proyecto (Persona, usuario, pass, id?, estado)
-                        // Pero para evitar romper si el constructor requiere ID, usamos el constructor (Persona, user, pass, estado)
                         nuevo = new Empleado(persona, usuarioTxt, contrasenia, true);
                         break;
                     case "Administrador":
@@ -160,8 +186,55 @@ public class PanelUsuarios extends JPanel implements SincronizacionCompartida.Ac
 
         int option = JOptionPane.showConfirmDialog(this, message, "Modificar Usuario", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            // Validar cambio de nombre de usuario (si lo cambian, no duplicar)
             String nuevoUsername = txtUsuario.getText().trim();
+            if (txtNombre.getText().length() < 2) {
+                JOptionPane.showMessageDialog(this, "El nombre es demasiado corto.");
+                return;
+            }
+            else{
+                usuario.setNombre(txtNombre.getText().trim());
+            }
+
+            if (!txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
+                return;
+            }
+            else{
+                usuario.setNombre(txtNombre.getText().trim());
+            }
+
+            if (txtApellido.getText().length() < 2) {
+                JOptionPane.showMessageDialog(this, "El apellido es demasiado corto.");
+                return;
+            }
+            else{
+                usuario.setApellido(txtApellido.getText().trim());
+            }
+
+            if (!txtApellido.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                JOptionPane.showMessageDialog(this, "El apellido solo puede contener letras y espacios.");
+                return;
+            }
+            else{
+                usuario.setApellido(txtApellido.getText().trim());
+            }
+
+            if (!txtTelefono.getText().matches("\\d{9}")) {
+                JOptionPane.showMessageDialog(this, "El telefono debe contener exactamente 9 dígitos numéricos.");
+                return;
+            }
+            else {
+                usuario.setTelefono(txtTelefono.getText().trim());
+            }
+
+            if (txtUsuario.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre de Usuario es obligatorio.");
+                return;
+            }
+            else {
+                usuario.setNombreUsuario(nuevoUsername);
+            }
+
             if (!nuevoUsername.equals(usuario.getNombreUsuario())) {
                 Usuario existente = getGestorUsuarios().buscarPorUsuario(nuevoUsername);
                 if (existente != null) {
@@ -170,17 +243,11 @@ public class PanelUsuarios extends JPanel implements SincronizacionCompartida.Ac
                 }
             }
 
-            usuario.setNombre(txtNombre.getText().trim());
-            usuario.setApellido(txtApellido.getText().trim());
-            usuario.setTelefono(txtTelefono.getText().trim());
             usuario.setDireccion(txtDireccion.getText().trim());
-            usuario.setNombreUsuario(nuevoUsername);
             usuario.setEstado(chkEstado.isSelected());
 
-            // Refrescar tabla
             recargarTablaUsuarios();
 
-            // Notificar cambios globales (opcional)
             SistemaBanco.getInstance().notificarCambios();
         }
     }
@@ -234,7 +301,6 @@ public class PanelUsuarios extends JPanel implements SincronizacionCompartida.Ac
         }
     }
 
-    // Intentamos obtener rol: primero getTipoRol(), si es null, usamos instanceof
     private String deducirRol(Usuario u) {
         String rol = null;
         try {
