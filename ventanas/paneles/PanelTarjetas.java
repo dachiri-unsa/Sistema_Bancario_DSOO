@@ -111,7 +111,7 @@ public class PanelTarjetas extends JPanel implements SincronizacionCompartida.Ac
             String numeroGenerado = gestorTarjetasCliente.generarNumeroTarjeta();
 
             Tarjeta tarjeta;
-            if (tipoSel == 0) { // Débito
+            if (tipoSel == 0) {
                 tarjeta = new Debito(numeroGenerado, compania, 0.0);
             } else {
                 tarjeta = new Credito(numeroGenerado, compania);

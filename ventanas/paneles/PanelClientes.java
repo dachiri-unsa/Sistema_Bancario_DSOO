@@ -75,14 +75,42 @@ public class PanelClientes extends JPanel implements SincronizacionCompartida.Ac
                 String direccion = txtDireccion.getText().trim();
                 String usuario = txtUsuario.getText().trim();
                 String contrasenia = new String(txtContrasenia.getPassword()).trim();
-
+                if (nombre.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El nombre es demasiado corto.");
+                    return;
+                }
+                if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
+                    return;
+                }
+                if (apellido.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El apellido es demasiado corto.");
+                    return;
+                }
+                if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El apellido solo puede contener letras y espacios.");
+                    return;
+                }
+                if (contrasenia.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "La contraseña es demasiado corta.");
+                    return;
+                }
+                if (!dni.matches("\\d{8}")) {
+                    JOptionPane.showMessageDialog(this, "El DNI debe contener exactamente 8 dígitos numéricos.");
+                    return;
+                }
+                if(!telefono.isEmpty()){
+                    if (!telefono.matches("\\d{9}")) {
+                        JOptionPane.showMessageDialog(this, "El telefono debe contener exactamente 9 dígitos numéricos.");
+                        return;
+                    }
+                }
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || usuario.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Los campos Nombre, Apellido, DNI y Usuario son obligatorios.");
                     return;
                 }
 
                 Persona persona = new Persona(nombre, apellido, dni, telefono, direccion);
-                // Usamos el constructor que acepta persona + usuario + contraseña + estado
                 Cliente cliente = new Cliente(persona, usuario, contrasenia, true);
 
                 SistemaBanco.getInstance().getBanco().getGestorClientes().agregarCliente(cliente);
@@ -104,7 +132,6 @@ public class PanelClientes extends JPanel implements SincronizacionCompartida.Ac
                 JTextField txtApellido = new JTextField(cliente.getApellido());
                 JTextField txtTelefono = new JTextField(cliente.getTelefono());
                 JTextField txtDireccion = new JTextField(cliente.getDireccion());
-                // asumo getter getNombreUsuario() en Usuario
                 JTextField txtUsuario = new JTextField(cliente.getNombreUsuario());
 
                 Object[] message = {
@@ -118,11 +145,53 @@ public class PanelClientes extends JPanel implements SincronizacionCompartida.Ac
                 int option = JOptionPane.showConfirmDialog(this, message, "Modificar Cliente",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
-                    cliente.setNombre(txtNombre.getText().trim());
-                    cliente.setApellido(txtApellido.getText().trim());
-                    cliente.setTelefono(txtTelefono.getText().trim());
-                    cliente.setDireccion(txtDireccion.getText().trim());
-                    cliente.setNombreUsuario(txtUsuario.getText().trim());
+                    if (txtNombre.getText().length() < 2) {
+                        JOptionPane.showMessageDialog(this, "El nombre es demasiado corto.");
+                        return;
+                    }
+                    else{
+                        cliente.setNombre(txtNombre.getText().trim());
+                    }
+
+                    if (!txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                        JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
+                        return;
+                    }
+                    else{
+                        cliente.setNombre(txtNombre.getText().trim());
+                    }
+
+                    if (txtApellido.getText().length() < 2) {
+                        JOptionPane.showMessageDialog(this, "El apellido es demasiado corto.");
+                        return;
+                    }
+                    else{
+                        cliente.setApellido(txtApellido.getText().trim());
+                    }
+
+                    if (!txtApellido.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                        JOptionPane.showMessageDialog(this, "El apellido solo puede contener letras y espacios.");
+                        return;
+                    }
+                    else{
+                        cliente.setApellido(txtApellido.getText().trim());
+                    }
+
+                    if (!txtTelefono.getText().matches("\\d{9}")) {
+                        JOptionPane.showMessageDialog(this, "El telefono debe contener exactamente 9 dígitos numéricos.");
+                        return;
+                    }
+                    else {
+                        cliente.setTelefono(txtTelefono.getText().trim());
+                    }
+
+                    if (txtUsuario.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "El nombre de Usuario es obligatorio.");
+                        return;
+                    }
+                    else {
+                        cliente.setNombreUsuario(txtUsuario.getText().trim());
+                    }
 
                     SincronizacionCompartida.notificarListeners();
                 }

@@ -55,14 +55,12 @@ public class PanelCuentas extends JPanel implements SincronizacionCompartida.Act
         btnMovimientos.addActionListener(e -> verMovimientos());
         btnEliminar.addActionListener(e -> eliminarSeleccionado());
 
-        // registrar para recibir notificaciones; cuando se notifique usamos el gestor del cliente
         SincronizacionCompartida.registrarListener(this);
 
-        // inicializar mostrando sólo las cuentas del cliente (si existe)
         if (cliente != null) {
             actualizarCuentas(cliente.getGestorCuentas().listarTodos());
         } else {
-            actualizarCuentas(List.of()); // muestra vacío
+            actualizarCuentas(List.of());
         }
     }
 
@@ -134,19 +132,16 @@ public class PanelCuentas extends JPanel implements SincronizacionCompartida.Act
 
         String numeroSeleccionado = null;
 
-        // Si hay una fila seleccionada en la tabla, usar esa cuenta
         int fila = tabla.getSelectedRow();
         if (fila >= 0) {
             Object val = modelo.getValueAt(fila, 0);
             if (val != null) numeroSeleccionado = val.toString();
         }
 
-        // Si no hay fila seleccionada y solo hay una cuenta, usarla
         if (numeroSeleccionado == null && cuentas.size() == 1) {
             numeroSeleccionado = cuentas.get(0).getNumeroCuenta();
         }
 
-        // Si no hay selección y hay varias cuentas
         if (numeroSeleccionado == null && cuentas.size() > 1) {
             JOptionPane.showMessageDialog(this, "Seleccione una cuenta, por favor");
             return;
@@ -157,7 +152,6 @@ public class PanelCuentas extends JPanel implements SincronizacionCompartida.Act
             return;
         }
 
-        // Buscar la cuenta en el gestor del cliente
         CuentaBancaria cuenta = gestor.buscarCuenta(numeroSeleccionado);
         if (cuenta == null) {
             JOptionPane.showMessageDialog(this, "Cuenta no encontrada: " + numeroSeleccionado);
@@ -172,7 +166,6 @@ public class PanelCuentas extends JPanel implements SincronizacionCompartida.Act
 
         StringBuilder sb = new StringBuilder();
         try {
-            // Si tu HistorialMovimientos tiene getMovimientos() que devuelve List<Movimiento>
             List<Movimiento> movimientos = historial.getMovimientos();
             if (movimientos == null || movimientos.isEmpty()) {
                 sb.append("No hay movimientos registrados para la cuenta ").append(numeroSeleccionado);
@@ -185,12 +178,10 @@ public class PanelCuentas extends JPanel implements SincronizacionCompartida.Act
             sb.append("No fue posible obtener movimientos (error interno).");
         }
 
-        // Mostrar en un dialog con JTextArea y scroll
         JTextArea area = new JTextArea(sb.toString());
         area.setEditable(false);
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
-        // Auto-scroll to top
         DefaultCaret caret = (DefaultCaret) area.getCaret();
         caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 

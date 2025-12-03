@@ -16,7 +16,6 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
     public PanelEmpleados() {
         setLayout(new BorderLayout());
 
-        // Toolbar
         JToolBar toolbar = new JToolBar();
         JButton btnAgregar = new JButton("Contratar");
         JButton btnModificar = new JButton("Modificar");
@@ -26,7 +25,6 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
         toolbar.add(btnEliminar);
         add(toolbar, BorderLayout.NORTH);
 
-        // Tabla
         modelo = new DefaultTableModel(new Object[] { "ID", "DNI", "Nombre", "Apellido", "Teléfono", "Dirección" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -36,12 +34,10 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
         tabla = new JTable(modelo);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
-        // Listeners
         btnAgregar.addActionListener(e -> mostrarDialogoAgregar());
         btnModificar.addActionListener(e -> mostrarDialogoModificar());
         btnEliminar.addActionListener(e -> eliminarSeleccionado());
 
-        // Registrarse para actualizaciones
         SincronizacionCompartida.registrarListener(this);
         actualizarEmpleados(SistemaBanco.getInstance().getBanco().getGestorEmpleados().listarTodos());
     }
@@ -72,24 +68,40 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
                 String telefono = txtTelefono.getText().trim();
                 String direccion = txtDireccion.getText().trim();
                 String id = txtId.getText().trim();
-
+                if (nombre.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El nombre es demasiado corto.");
+                    return;
+                }
+                if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
+                    return;
+                }
+                if (apellido.length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El apellido es demasiado corto.");
+                    return;
+                }
+                if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El apellido solo puede contener letras y espacios.");
+                    return;
+                }
+                if (!dni.matches("\\d{8}")) {
+                    JOptionPane.showMessageDialog(this, "El DNI debe contener exactamente 8 dígitos numéricos.");
+                    return;
+                }
+                if(!telefono.isEmpty()){
+                    if (!telefono.matches("\\d{9}")) {
+                        JOptionPane.showMessageDialog(this, "El telefono debe contener exactamente 9 dígitos numéricos.");
+                        return;
+                    }
+                }
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || id.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Todos los campos obligatorios deben ser llenados.");
                     return;
                 }
 
                 Persona persona = new Persona(nombre, apellido, dni, telefono, direccion);
-                // Assuming default password or logic for user creation is handled elsewhere or
-                // not needed for basic employee listing yet.
-                // The original MenuEmpleados didn't seem to ask for password, but Empleado
-                // extends Usuario.
-                // Let's assume a default or empty password for now, or we might need to add it.
-                // Checking MenuEmpleados: "Faltaria agregar rol empleado al momento de crear
-                // Usuario tipo empleado... si no tiene cuenta para ingresar..."
-                // It seems it creates it with just the ID.
 
-                Empleado empleado = new Empleado(persona, dni, dni, true); // Using DNI as user/pass temporarily as
-                                                                               // per some patterns or just placeholders
+                Empleado empleado = new Empleado(persona, dni, dni, true);
 
                 SistemaBanco.getInstance().getBanco().getGestorEmpleados().agregarEmpleado(empleado);
                 SincronizacionCompartida.notificarListeners();
@@ -120,14 +132,47 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
 
                 int option = JOptionPane.showConfirmDialog(this, message, "Modificar Empleado",
                         JOptionPane.OK_CANCEL_OPTION);
+
                 if (option == JOptionPane.OK_OPTION) {
-                    empleado.setNombre(txtNombre.getText().trim());
-                    empleado.setApellido(txtApellido.getText().trim());
-                    empleado.setTelefono(txtTelefono.getText().trim());
+                    if (txtNombre.getText().length() < 2) {
+                        JOptionPane.showMessageDialog(this, "El nombre es demasiado corto.");
+                        return;
+                    }
+                    else{
+                        empleado.setNombre(txtNombre.getText().trim());
+                    }
+
+                    if (!txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                        JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
+                        return;
+                    }
+                    else{
+                        empleado.setNombre(txtNombre.getText().trim());
+                    }
+
+                    if (txtApellido.getText().length() < 2) {
+                        JOptionPane.showMessageDialog(this, "El apellido es demasiado corto.");
+                        return;
+                    }
+                    else{
+                        empleado.setApellido(txtApellido.getText().trim());
+                    }
+
+                    if (!txtApellido.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                        JOptionPane.showMessageDialog(this, "El apellido solo puede contener letras y espacios.");
+                        return;
+                    }
+                    else{
+                        empleado.setApellido(txtApellido.getText().trim());
+                    }
+
+                    if (!txtTelefono.getText().matches("\\d{9}")) {
+                        JOptionPane.showMessageDialog(this, "El telefono debe contener exactamente 9 dígitos numéricos.");
+                        return;
+                    }
+
                     empleado.setDireccion(txtDireccion.getText().trim());
 
-                    // No need to explicitly "save" if objects are references, but notification is
-                    // needed to refresh views
                     SincronizacionCompartida.notificarListeners();
                 }
             }

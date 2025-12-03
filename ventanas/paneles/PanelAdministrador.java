@@ -58,6 +58,37 @@ public class PanelAdministrador extends JPanel implements SincronizacionComparti
         int option = JOptionPane.showConfirmDialog(this, message, "Nuevo Administrador", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
+                if (txtNombre.getText().length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El nombre es demasiado corto.");
+                    return;
+                }
+
+                if (!txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
+                    return;
+                }
+
+                if (txtApellido.getText().length() < 2) {
+                    JOptionPane.showMessageDialog(this, "El apellido es demasiado corto.");
+                    return;
+                }
+
+                if (txtPassword.getText().length() < 2) {
+                    JOptionPane.showMessageDialog(this, "La contraseña es demasiado corta.");
+                    return;
+                }
+
+                if (txtUsuario.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Usuario es obligatorio.");
+                    return;
+                }
+
+                if (!txtApellido.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(this, "El apellido solo puede contener letras y espacios.");
+                    return;
+                }
+
+
                 Persona persona = new Persona(
                         txtNombre.getText(),
                         txtApellido.getText(),
