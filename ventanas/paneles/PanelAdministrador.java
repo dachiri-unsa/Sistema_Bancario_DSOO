@@ -24,7 +24,12 @@ public class PanelAdministrador extends JPanel implements SincronizacionComparti
         toolbar.add(btnEliminar);
         add(toolbar, BorderLayout.NORTH);
 
-        modelo = new DefaultTableModel(new Object[] { "DNI", "Nombre", "Apellido", "Usuario" }, 0);
+        modelo = new DefaultTableModel(new Object[] { "DNI", "Nombre", "Apellido", "Usuario" }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modelo);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 

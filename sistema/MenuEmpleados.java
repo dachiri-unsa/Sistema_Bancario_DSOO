@@ -50,7 +50,6 @@ public class MenuEmpleados {
     }
 
     public void registrarEmpleado() {
-        // El id en este caso tiene que ser E003
         System.out.println("==== REGISTRANDO EMPLEADO ====");
         // #### VALIDACION DE NOMBRE(S) ####
         System.out.println("Ingrese nombre del empleado.");
@@ -113,26 +112,14 @@ public class MenuEmpleados {
             System.out.println("La direccion no puede estar vacio.");
             return;
         }
-        // #### CREACION DEL ID ####
-        System.out.println("Ingrese el que sera el ID empleado (Ejemplo: E003): ");
-        String id = sc.nextLine().trim();
-        if (id.isEmpty()) {
-            System.out.println("El ID no puede estar vacio.");
-            return;
-        }
-        if (!id.substring(0, 1).equals("E")) {
-            System.out.println("El ID de empleado debe empezar con E.");
-            return;
-        }
         // Faltaria agregar rol empleado al momento de crear Usuario tipo empleado
         // si no tiene cuenta para ingresar, tambien pedir nombreUsuario y
         // contraseñaUsuario
         Persona persona = new Persona(nombre, apellidos, dni, telefono, direccion);
-        Empleado empleado = new Empleado(persona, persona.getDNI(), persona.getDNI(), id, true);
+        Empleado empleado = new Empleado(persona, persona.getDNI(), persona.getDNI(), true);
         banco.getGestorEmpleados().agregarEmpleado(empleado);
     }
 
-    // Aqui hacer lo mismo XD
     public void modificarEmpleado() {
         System.out.println("==== MODIFICAR EMPLEADO ====");
         System.out.println("Ingresar el DNI del empleado a buscar.");

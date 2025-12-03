@@ -159,7 +159,7 @@ public class Banco {
         Usuario u1 = new Administrador("Juan", "Perez", "10203040", "999888777", "Av. Javier Prado 123, Lima", "admin",
                 util.PasswordUtil.hashPassword("1234"), true);
         Usuario u2 = new Empleado("Maria", "Fernandez", "40506070", "987654321", "Calle Los Pinos 456, Arequipa",
-                "maria", util.PasswordUtil.hashPassword("maria"), "E002", true);
+                "maria", util.PasswordUtil.hashPassword("maria"), true);
         Usuario u3 = new Cliente("Ana", "Torres", "12345678", "987654321", "Av. Arequipa 101, Lima", "anaUser",
                 util.PasswordUtil.hashPassword("anaPass"), true);
 
@@ -186,12 +186,12 @@ public class Banco {
 
     private void inicializarEmpleados() {
         Empleado emp3 = new Empleado("Pedro", "Castillo", "99887766", "911222333", "Jr. Ayacucho 808, Cajamarca",
-                "pedro", util.PasswordUtil.hashPassword("pedro"), "E003", true);
+                "pedro", util.PasswordUtil.hashPassword("pedro"), true);
         gestorEmpleados.agregarEmpleado(emp3);
         gestorUsuarios.agregarUsuario(emp3);
 
         Persona pEmp4 = new Persona("Lucia", "Reyes", "77665544", "999000111", "Av. Grau 202");
-        Empleado emp4 = new Empleado(pEmp4, "lucia", util.PasswordUtil.hashPassword("lucia"), "E004", true);
+        Empleado emp4 = new Empleado(pEmp4, "lucia", util.PasswordUtil.hashPassword("lucia"), true);
         gestorEmpleados.agregarEmpleado(emp4);
         gestorUsuarios.agregarUsuario(emp4);
     }

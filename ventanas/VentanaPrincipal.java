@@ -47,6 +47,7 @@ public class VentanaPrincipal extends JFrame {
         JButton btnClientes = new JButton("Clientes");
         JButton btnAdministradores = new JButton("Administradores");
         JButton btnEmpleados = new JButton("Empleados");
+        JButton btnUsuarios = new JButton("Usuarios");
         JButton btnCajeros = new JButton("Cajeros");
 
 
@@ -62,6 +63,8 @@ public class VentanaPrincipal extends JFrame {
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
         sidebar.add(btnEmpleados);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+        sidebar.add(btnUsuarios);
+        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
         sidebar.add(btnCajeros);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
 
@@ -75,6 +78,7 @@ public class VentanaPrincipal extends JFrame {
         PanelClientes panelClientes = new PanelClientes();
         PanelAdministrador panelAdministrador = new PanelAdministrador();
         PanelEmpleados panelEmpleados = new PanelEmpleados();
+        PanelUsuarios panelUsuarios = new PanelUsuarios();
         PanelCajeros panelCajeros = new PanelCajeros();
 
         contentPanel.add(panelInicio, "inicio");
@@ -83,6 +87,7 @@ public class VentanaPrincipal extends JFrame {
         contentPanel.add(panelClientes, "clientes");
         contentPanel.add(panelAdministrador, "administradores");
         contentPanel.add(panelEmpleados, "empleados");
+        contentPanel.add(panelUsuarios, "usuarios");
         contentPanel.add(panelCajeros, "cajeros");
 
         btnInicio.addActionListener(e -> cardLayout.show(contentPanel, "inicio"));
@@ -91,6 +96,7 @@ public class VentanaPrincipal extends JFrame {
         btnClientes.addActionListener(e -> cardLayout.show(contentPanel, "clientes"));
         btnAdministradores.addActionListener(e -> cardLayout.show(contentPanel, "administradores"));
         btnEmpleados.addActionListener(e -> cardLayout.show(contentPanel, "empleados"));
+        btnUsuarios.addActionListener(e -> cardLayout.show(contentPanel, "usuarios"));
         btnCajeros.addActionListener(e -> cardLayout.show(contentPanel, "cajeros"));
 
         add(header, BorderLayout.NORTH);

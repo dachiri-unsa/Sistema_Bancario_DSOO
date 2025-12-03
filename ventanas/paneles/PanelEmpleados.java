@@ -27,7 +27,12 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
         add(toolbar, BorderLayout.NORTH);
 
         // Tabla
-        modelo = new DefaultTableModel(new Object[] { "ID", "DNI", "Nombre", "Apellido", "Teléfono", "Dirección" }, 0);
+        modelo = new DefaultTableModel(new Object[] { "ID", "DNI", "Nombre", "Apellido", "Teléfono", "Dirección" }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modelo);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
@@ -83,7 +88,7 @@ public class PanelEmpleados extends JPanel implements SincronizacionCompartida.A
                 // Usuario tipo empleado... si no tiene cuenta para ingresar..."
                 // It seems it creates it with just the ID.
 
-                Empleado empleado = new Empleado(persona, dni, dni, id, true); // Using DNI as user/pass temporarily as
+                Empleado empleado = new Empleado(persona, dni, dni, true); // Using DNI as user/pass temporarily as
                                                                                // per some patterns or just placeholders
 
                 SistemaBanco.getInstance().getBanco().getGestorEmpleados().agregarEmpleado(empleado);

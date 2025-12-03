@@ -27,7 +27,12 @@ public class PanelClientes extends JPanel implements SincronizacionCompartida.Ac
 
         modelo = new DefaultTableModel(new Object[] {
             "DNI", "Nombre", "Apellido", "Teléfono", "Dirección", "Usuario"
-        }, 0);
+        }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modelo);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
