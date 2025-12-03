@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import entidades.concretas.Cliente;
 import entidades.concretas.LoginView;
-import gestores.GestorClientes;
 
 public class Registro {
     private Banco banco;

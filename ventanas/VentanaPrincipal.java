@@ -44,6 +44,7 @@ public class VentanaPrincipal extends JFrame {
         JButton btnInicio = new JButton("Inicio");
         JButton btnCuentas = new JButton("Cuentas");
         JButton btnTarjetas = new JButton("Tarjetas");
+        JButton btnClientes = new JButton("Clientes");
         JButton btnAdministradores = new JButton("Administradores");
         JButton btnEmpleados = new JButton("Empleados");
         JButton btnCajeros = new JButton("Cajeros");
@@ -54,6 +55,8 @@ public class VentanaPrincipal extends JFrame {
         sidebar.add(btnCuentas);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
         sidebar.add(btnTarjetas);
+        sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
+        sidebar.add(btnClientes);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
         sidebar.add(btnAdministradores);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -69,6 +72,7 @@ public class VentanaPrincipal extends JFrame {
         PanelInicio panelInicio = new PanelInicio(usuario);
         PanelCuentas panelCuentas = new PanelCuentas(usuario);
         PanelTarjetas panelTarjetas = new PanelTarjetas(usuario);
+        PanelClientes panelClientes = new PanelClientes();
         PanelAdministrador panelAdministrador = new PanelAdministrador();
         PanelEmpleados panelEmpleados = new PanelEmpleados();
         PanelCajeros panelCajeros = new PanelCajeros();
@@ -76,6 +80,7 @@ public class VentanaPrincipal extends JFrame {
         contentPanel.add(panelInicio, "inicio");
         contentPanel.add(panelCuentas, "cuentas");
         contentPanel.add(panelTarjetas, "tarjetas");
+        contentPanel.add(panelClientes, "clientes");
         contentPanel.add(panelAdministrador, "administradores");
         contentPanel.add(panelEmpleados, "empleados");
         contentPanel.add(panelCajeros, "cajeros");
@@ -83,6 +88,7 @@ public class VentanaPrincipal extends JFrame {
         btnInicio.addActionListener(e -> cardLayout.show(contentPanel, "inicio"));
         btnCuentas.addActionListener(e -> cardLayout.show(contentPanel, "cuentas"));
         btnTarjetas.addActionListener(e -> cardLayout.show(contentPanel, "tarjetas"));
+        btnClientes.addActionListener(e -> cardLayout.show(contentPanel, "clientes"));
         btnAdministradores.addActionListener(e -> cardLayout.show(contentPanel, "administradores"));
         btnEmpleados.addActionListener(e -> cardLayout.show(contentPanel, "empleados"));
         btnCajeros.addActionListener(e -> cardLayout.show(contentPanel, "cajeros"));
